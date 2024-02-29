@@ -46,6 +46,7 @@ urlpatterns = [
     path('accounts/',include('accounts.urls')),
     path('job/',include('job.urls')),
     path('company/',include('company.urls')),
+    path('employers/',include('employer.urls')),
     path('accounts/',include('accounts.urls')),
    # path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
