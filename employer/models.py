@@ -6,9 +6,9 @@ from job.models import JobCategory,Skills,Jobs
 
 class Employer(models.Model):
     cv = models.FileField(upload_to='users/employer',null=True)
-    user = models.OneToOneField(CustomUser,related_name = 'employer')
+    user = models.OneToOneField(CustomUser,related_name = 'employer',on_delete = models.CASCADE)
     expected_salary = models.PositiveIntegerField()
-    job_category = models.ForeignKey(JobCategory,related_name = 'employer')
+    job_category = models.ForeignKey(JobCategory,related_name = 'employer',on_delete = models.PROTECT)
     skills = models.ManyToManyField(Skills,through="EmployerHaveSkills",related_name='employers')
 
     def __str__(self) -> str:
@@ -21,7 +21,7 @@ class EmployerHaveSkills(models.Model):
 
 class JobsApply(models.Model):
     user = models.ForeignKey(CustomUser,related_name = 'apply_jobs',on_delete = models.CASCADE)
-    job = models.ForeignKey(Jobs,related_name = models.PROTECT)
+    job = models.ForeignKey(Jobs,related_name ='job_seekers', on_delete = models.PROTECT)
     created_date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self) -> str:

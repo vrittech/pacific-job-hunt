@@ -49,14 +49,14 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_filters',
     'accounts',
-    'managements',
+    'management',
     'job',
     'employer',
     'company',
     'report'
 ]
 
-# ASGI_APPLICATION = 'trek.asgi.application'
+# ASGI_APPLICATION = 'config.asgi.application'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 MIDDLEWARE = [
@@ -72,7 +72,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'trek.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
@@ -90,7 +90,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'trek.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

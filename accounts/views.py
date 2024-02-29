@@ -286,7 +286,7 @@ class userLimitedData(generics.ListAPIView):
     }
     
     def get_queryset(self):
-        users = CustomUser.objects.filter(role = roles.USER,is_active = True)
+        users = CustomUser.objects.filter(role = roles.EMPLOYER,is_active = True)
         return users
 
     def get_serializer_class(self):

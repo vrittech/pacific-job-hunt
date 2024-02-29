@@ -18,7 +18,7 @@ class JobCategory(models.Model):
         super().save(*args, **kwargs)
 
 class Skills(models.Model):
-    name = models.CharField(max_lengtht = 150)
+    name = models.CharField(max_length = 150)
     category = models.ForeignKey(JobCategory,on_delete = models.CASCADE)
 
     def __str__(self) -> str:

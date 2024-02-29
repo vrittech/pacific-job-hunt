@@ -4,4 +4,4 @@ from django.contrib import admin
 from django.contrib import admin
 from .models import CompanyType,Company
 # Register your models here.
-admin.site.register(CompanyType,Company)
+admin.site.register([CompanyType,Company])

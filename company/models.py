@@ -25,10 +25,10 @@ class Company(models.Model):
     email = models.EmailField()
     company_logo = models.ImageField(upload_to='company/images')
     description = models.TextField(null = True,blank = True)
-    company_size = models.CharField(350)
+    company_size = models.CharField(max_length = 350)
     website = models.URLField(null = True,max_length = 300)
     is_verified = models.BooleanField(default = False)
-    owner = models.ForeignKey(CustomUser)
+    owner = models.ForeignKey(CustomUser,on_delete = models.PROTECT)
 
     def save(self, *args, **kwargs):
         if not self.slug:
