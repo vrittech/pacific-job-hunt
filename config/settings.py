@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'accounts',
     'management',
     'job',
-    'employer',
+    'jobseeker',
     'company',
     'report'
 ]

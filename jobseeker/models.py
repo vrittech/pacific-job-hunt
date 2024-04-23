@@ -4,18 +4,19 @@ from job.models import JobCategory,Skills,Jobs
 
 # Create your models here.
 
-class Employer(models.Model):
-    cv = models.FileField(upload_to='users/employer',null=True)
-    user = models.OneToOneField(CustomUser,related_name = 'employer',on_delete = models.CASCADE)
+class JobSeeker(models.Model):
+    cv = models.FileField(upload_to='users/jobseeker/images',null=True)
+    user = models.OneToOneField(CustomUser,related_name = 'jobseeker',on_delete = models.CASCADE)
     expected_salary = models.PositiveIntegerField()
-    job_category = models.ForeignKey(JobCategory,related_name = 'employer',on_delete = models.PROTECT)
-    skills = models.ManyToManyField(Skills,through="EmployerHaveSkills",related_name='employers')
+    experience = models.PositiveIntegerField()
+    job_category = models.ForeignKey(JobCategory,related_name = 'jobseekers',on_delete = models.PROTECT)
+    skills = models.ManyToManyField(Skills,through="EmployerHaveSkills",related_name='jobseekers')
 
     def __str__(self) -> str:
         return self.user.username
 
 class EmployerHaveSkills(models.Model):
-    employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
+    employer = models.ForeignKey(JobSeeker, on_delete=models.CASCADE)
     skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
     experience = models.PositiveIntegerField()  # in years
 
