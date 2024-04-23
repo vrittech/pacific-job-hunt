@@ -10,13 +10,13 @@ class JobSeeker(models.Model):
     expected_salary = models.PositiveIntegerField()
     experience = models.PositiveIntegerField()
     job_category = models.ForeignKey(JobCategory,related_name = 'jobseekers',on_delete = models.PROTECT)
-    skills = models.ManyToManyField(Skills,through="EmployerHaveSkills",related_name='jobseekers')
+    skills = models.ManyToManyField(Skills,through="JobSeekerHaveSkills",related_name='jobseekers')
 
     def __str__(self) -> str:
         return self.user.username
 
-class EmployerHaveSkills(models.Model):
-    employer = models.ForeignKey(JobSeeker, on_delete=models.CASCADE)
+class JobSeekerHaveSkills(models.Model):
+    jobseeker = models.ForeignKey(JobSeeker, on_delete=models.CASCADE)
     skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
     experience = models.PositiveIntegerField()  # in years
 

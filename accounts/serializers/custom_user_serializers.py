@@ -37,11 +37,11 @@ class CustomUserSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         # print(user.is_authenticated)
         if not user.is_authenticated:
-            if value == roles.EMPLOYER:
+            if value == roles.JOBSEEKER:
                 pass
             else:
                 raise serializers.ValidationError("You can only set USER,PUBLISHER as role") 
-        elif user.is_authenticated and value!=roles.EMPLOYER:
+        elif user.is_authenticated and value!=roles.JOBSEEKER:
                 raise serializers.ValidationError("You can only set USER as role") 
         return value
     
