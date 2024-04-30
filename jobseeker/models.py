@@ -27,6 +27,13 @@ class JobsApply(models.Model):
     
     def __str__(self) -> str:
         return str(self.user.username)+'-'+str(self.job.title)
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'job'], name='unique_user_job_application')
+        ]
+
+        
 
 # {
 #     "cv": "path/to/cv.pdf",
