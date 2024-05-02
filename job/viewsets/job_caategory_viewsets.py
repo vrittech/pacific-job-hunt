@@ -1,4 +1,4 @@
-from ..models import Company
+from ..models import JobCategory
 from ..serializers.job_category_serializers import JobCategoryReadSerializers,JobCategoryWriteSerializers
 from ..utilities.importbase import *
 
@@ -7,7 +7,7 @@ class JobsCategoryViewSets(viewsets.ModelViewSet):
     permission_classes = [AdminViewSetsPermission]
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset  = Company.objects.all()
+    queryset  = JobCategory.objects.all()
 
     def get_serializer_class(self):
         if self.action in ['create','update','partial_update']:

@@ -31,7 +31,7 @@ class Company(models.Model):
     owner = models.ForeignKey(CustomUser,on_delete = models.PROTECT)
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.Company_name)+'-'+str(self.public_id)[1:5] + str(self.public_id)[-1:-5]
+        if not self.company_slug:
+            self.company_slug = slugify(self.Company_name)+'-'+str(self.public_id)[1:5] + str(self.public_id)[-1:-5]
         super().save(*args, **kwargs)
 
