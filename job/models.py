@@ -7,6 +7,7 @@ from company.models import Company
 class JobCategory(models.Model):
     name = models.CharField(max_length = 250,unique = True)
     image = models.ImageField(upload_to='jobs/category/images')
+    is_popular = models.BooleanField(default = False)
     slug = models.CharField(max_length = 250,unique = True)
 
     def __str__(self):
