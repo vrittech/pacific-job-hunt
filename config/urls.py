@@ -25,7 +25,20 @@ from django.http import HttpResponse
 
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework import routers
 
+
+from company.urls import router as company_routers
+from accounts.router import router as accounts_urls
+from job.urls import router as job_routers
+from jobseeker.urls import router as jobseeker_routers
+
+router = routers.DefaultRouter()
+router.registry.extend(company_routers.registry)
+router.registry.extend(accounts_urls.registry)
+router.registry.extend(jobseeker_routers.registry)
+router.registry.extend(accounts_urls.registry)
+router.registry.extend(job_routers.registry)
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -43,11 +56,11 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/',include('accounts.urls')),
-    path('job/',include('job.urls')),
-    path('company/',include('company.urls')),
-    path('jobseeker/',include('jobseeker.urls')),
-    path('accounts/',include('accounts.urls')),
+    path("__debug__/", include("debug_toolbar.urls")),
+    path("api/", include(router.urls)),
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/accounts/',include('accounts.urls')),
+    
    # path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

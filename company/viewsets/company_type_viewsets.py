@@ -5,7 +5,7 @@ from ..utilities.importbase import *
 class CompanytypeViewSets(viewsets.ModelViewSet):
     serializer_class = CompanyTypeReadSerializers
     permission_classes = [AdminViewSetsPermission]
-    authentication_classes = [JWTAuthentication]
+    # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = CompanyType.objects.all()
 

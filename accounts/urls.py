@@ -8,19 +8,9 @@ from .group_permission import PermissionHasGroupViewSet,CustomPermissionInsert
 
 from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView,TokenVerifyView
 
-router = DefaultRouter()
-
-router.register('users', views.CustomUserSerializerViewSet, basename="CustomUserSerializer")
-
-# router.register('groups', views.GroupViewSet, basename="group")
-# router.register('permissions', views.PermissionViewSet, basename="permission")
-
-# router.register("permission-has-group",PermissionHasGroupViewSet,basename="PermissionHasGroupViewSet")
-
 
 urlpatterns = [    
     path('auth/login/', LoginView.as_view()),
-    path('', include(router.urls)),
 
     path('gettoken/',TokenObtainPairView.as_view(),name="token_obtain_pair"),
     path('refresh-token',TokenRefreshView.as_view(),name = 'refresg-token'),

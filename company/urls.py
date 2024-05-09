@@ -7,6 +7,6 @@ router = DefaultRouter()
 router.register('company-type', company_type_viewsets.CompanytypeViewSets, basename="CompanytypeViewSets")
 router.register('company', company_viewsets.CompanyViewSets, basename="CompanyViewSets")
 
-urlpatterns = [    
-    path('', include(router.urls)),
-]
+# urlpatterns = [    
+#     path('', include(router.urls)),
+# ]

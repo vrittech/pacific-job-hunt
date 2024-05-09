@@ -53,13 +53,16 @@ INSTALLED_APPS = [
     'job',
     'jobseeker',
     'company',
-    'report'
+    'report',
+    'debug_toolbar',
 ]
 
 # ASGI_APPLICATION = 'config.asgi.application'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 
@@ -164,18 +167,39 @@ CSRF_TRUSTED_ORIGINS = [trusted for trusted in os.getenv('CSRF_TRUSTED_ORIGINS')
 
 from datetime import timedelta
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ),
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    # "MAX_PAGE_SIZE": 1
+}
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=7),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,
-
+    "AUTH_HEADER_TYPES": ("Bearer", "JWT"),
+    # "USER_ID_FIELD": "id",
+    # "USER_ID_CLAIM": "user_id",
     "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
 }
+# JWT_AUTH = {"JWT_ALLOW_REFRESH": True}
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = os.getenv('smtp.gmail.com')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
