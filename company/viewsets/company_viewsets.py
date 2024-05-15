@@ -6,7 +6,7 @@ from ..utilities.permission import CompanyPermission
 class CompanyViewSets(viewsets.ModelViewSet):
     serializer_class = CompanyReadSerializers
     permission_classes = [CompanyPermission]
-    authentication_classes = [JWTAuthentication]
+    # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = Company.objects.all()
 
