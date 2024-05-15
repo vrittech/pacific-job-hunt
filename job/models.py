@@ -41,9 +41,13 @@ class Jobs(models.Model):
     company =  models.ForeignKey(Company,on_delete = models.CASCADE)
     is_active = models.BooleanField(default = True)
     is_verified = models.BooleanField(default = False)
+
+    image = models.ImageField(upload_to='jobs/images',null=True)
     
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
+
+    expiry_date = models.DateTimeField()
 
     def __str__(self) -> str:
         return str(self.company.company_name)+"-"+str(self.title)
