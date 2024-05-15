@@ -33,6 +33,7 @@ class Jobs(models.Model):
     required_number = models.PositiveIntegerField()
     description = models.TextField()
     timing = models.CharField(max_length = 20, choices = (('full_time','Full Time'),('part_time','Part Time'),('remote','Remote')),default = 'full_time')
+    salary_mode = models.CharField(max_length = 20, choices = (('annually','annually'),('hourly','hourly'),('monthly','monthly')),default = 'monthly')
     min_salary = models.IntegerField(null = True)
     max_salary = models.IntegerField(null = True)
     category = models.ForeignKey(JobCategory,on_delete = models.PROTECT)
