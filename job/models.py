@@ -27,13 +27,14 @@ class Skills(models.Model):
     
 class Jobs(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
-    title = models.CharField(max_length = 250)
+    title = models.CharField(max_length = 250,null=True,default='')
     position = models.CharField(max_length = 200)
     level = models.CharField(max_length = 50, choices = (('intern','Intern'),('junior','Junior'),('mid','Mid'),('senior','Senior'),('','')),default = '',null = True)
     required_number = models.PositiveIntegerField()
     description = models.TextField()
     timing = models.CharField(max_length = 20, choices = (('full_time','Full Time'),('part_time','Part Time'),('remote','Remote')),default = 'full_time')
-    salary = models.IntegerField(null = True)
+    min_salary = models.IntegerField(null = True)
+    max_salary = models.IntegerField(null = True)
     category = models.ForeignKey(JobCategory,on_delete = models.PROTECT)
     company =  models.ForeignKey(Company,on_delete = models.CASCADE)
     is_active = models.BooleanField(default = True)
