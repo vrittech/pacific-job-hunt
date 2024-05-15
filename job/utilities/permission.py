@@ -16,7 +16,10 @@ class AdminViewSetsPermission(BasePermission):
         return AdminLevel(request)
     
 def isCompanyOwner(request):
-    company = Company.objects.filter(id = request.data.get('company_id'),owner_id = request.user.id)
+    print(request.data.get('company'))
+    print(request.user.id)
+    company = Company.objects.filter(id = request.data.get('company'),owner_id = request.user.id)
+    print(company, " company permission ")
     if company.exists():
         return True
     return False
@@ -28,12 +31,25 @@ def isOwnerJob(request,object):
 
 class JobPermission(BasePermission):
     def has_permission(self, request, view):
+        print(" creating ",view.action)
         if view.action in ['list','retrieve']:
             return True
         elif view.action in ['update','partial_update','create']:
+            print(" creating ")
             return AdminEntrepreneurLevel(request) and isCompanyOwner(request)
         elif view.action == "destroy":
             return AdminLevel(request) or (IsAuthenticated(request) and isOwnerJob(request,view.get_object()))
+        else:
+            return False
+        
+class JobCategoryPermission(BasePermission):
+    def has_permission(self, request, view):
+        if view.action in ['list','retrieve']:
+            return True
+        elif view.action in ['update','partial_update','create']:
+            return AdminLevel(request)
+        elif view.action == "destroy":
+            return AdminLevel(request)
         else:
             return False
         

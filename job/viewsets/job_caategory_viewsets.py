@@ -1,10 +1,11 @@
 from ..models import JobCategory
 from ..serializers.job_category_serializers import JobCategoryReadSerializers,JobCategoryWriteSerializers
 from ..utilities.importbase import *
+from ..utilities.permission import JobCategoryPermission
 
 class JobsCategoryViewSets(viewsets.ModelViewSet):
     serializer_class = JobCategoryReadSerializers
-    permission_classes = [AdminViewSetsPermission]
+    permission_classes = [JobCategoryPermission]
     authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = JobCategory.objects.all()
