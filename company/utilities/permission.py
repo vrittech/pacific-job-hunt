@@ -8,6 +8,14 @@ def AdminLevel(request):
     return bool(IsAuthenticated(request) and request.user.role in [roles.ADMIN,roles.SUPER_ADMIN])
 
 class AdminViewSetsPermission(BasePermission):
-    def has_permission(self, request, view):
+    def has_permission(self, request, view):    
         return AdminLevel(request)
+    
+class CompanyPermission(BasePermission):
+    def has_permission(self, request, view):
+        print(view.action)
+        if view.action in ["list","retrieve"]:
+            return True
+        else:
+            return AdminLevel(request)
         
