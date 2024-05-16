@@ -18,14 +18,18 @@ class JobViewSets(viewsets.ModelViewSet):
         if self.action in ['create','update','partial_update']:
             return JobWriteSerializers
         elif self.action in ['list']:
-            if self.request.user.is_authenticated and roles in [roles.ADMIN,roles.SUPER_ADMIN,roles.ENTREPRENEUR]:
+            if self.request.user.is_authenticated and self.request.user.role in [roles.ADMIN,roles.SUPER_ADMIN,roles.ENTREPRENEUR]:
                 return JobListAdminSerializer
             else:
                 return JobListPublicSerializer
         elif self.action in ['retrieve']:
-            if self.request.user.is_authenticated and roles in [roles.ADMIN,roles.SUPER_ADMIN,roles.ENTREPRENEUR]:
+            
+            if self.request.user.is_authenticated and self.request.user.role in [roles.ADMIN,roles.SUPER_ADMIN,roles.ENTREPRENEUR]:
+                print(self.action)
                 return JobRetrieveAdminSerializer
+            
             else:
+                print(self.action," public retrieve",self.request.user.is_authenticated)
                 return JobRetrievePublicSerializer
         return super().get_serializer_class()
     

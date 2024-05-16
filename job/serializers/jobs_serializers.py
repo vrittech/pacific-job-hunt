@@ -13,6 +13,12 @@ class JobCategory_PublicSerializer(serializers.ModelSerializer):
         model = JobCategory
         fields =  ['name','slug']
 
+
+class JobCategory_JobRetrieveAdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobCategory
+        fields =  ['name','slug','id']        
+
 class JobListPublicSerializer(serializers.ModelSerializer):
     company = Company_PublicSerializer(read_only = True)
     category = JobCategory_PublicSerializer(read_only = True)
@@ -29,7 +35,7 @@ class JobListAdminSerializer(serializers.ModelSerializer):
 
 class JobRetrieveAdminSerializer(serializers.ModelSerializer):
     company = Company_PublicSerializer(read_only = True)
-    category = JobCategory_PublicSerializer(read_only = True)
+    category = JobCategory_JobRetrieveAdminSerializer(read_only = True)
     class Meta:
         model = Jobs
         fields = '__all__'
