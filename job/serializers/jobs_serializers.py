@@ -6,7 +6,7 @@ from ..models import JobCategory
 class Company_PublicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
-        fields =  ['company_name','company_slug']
+        fields =  ['company_name','company_slug','company_logo','location']
 
 class JobCategory_PublicSerializer(serializers.ModelSerializer):
     class Meta:

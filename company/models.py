@@ -29,6 +29,7 @@ class Company(models.Model):
     website = models.URLField(null = True,max_length = 300)
     is_verified = models.BooleanField(default = False)
     owner = models.ForeignKey(CustomUser,on_delete = models.PROTECT)
+    location = models.CharField(max_length = 950)
 
     def save(self, *args, **kwargs):
         if not self.company_slug:
