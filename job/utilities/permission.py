@@ -34,9 +34,13 @@ class JobPermission(BasePermission):
         print(" creating ",view.action)
         if view.action in ['list','retrieve']:
             return True
-        elif view.action in ['update','partial_update','create']:
+        elif view.action in ['update','create']:
             print(" creating ")
             return AdminEntrepreneurLevel(request) and isCompanyOwner(request)
+        
+        elif view.action=="partial_update":
+            return AdminLevel(request) or (IsAuthenticated(request) and isOwnerJob(request,view.get_object()))
+        
         elif view.action == "destroy":
             return AdminLevel(request) or (IsAuthenticated(request) and isOwnerJob(request,view.get_object()))
         else:

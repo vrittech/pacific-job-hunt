@@ -5,7 +5,7 @@ from ..utilities.permission import JobPermission
 from accounts.models import roles
 
 class JobViewSets(viewsets.ModelViewSet):
-    serializer_class = JobListPublicSerializer
+    serializer_class = JobWriteSerializers
     permission_classes = [JobPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
@@ -31,5 +31,6 @@ class JobViewSets(viewsets.ModelViewSet):
             else:
                 print(self.action," public retrieve",self.request.user.is_authenticated)
                 return JobRetrievePublicSerializer
+            
         return super().get_serializer_class()
     
