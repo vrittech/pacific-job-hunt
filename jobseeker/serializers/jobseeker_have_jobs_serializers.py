@@ -40,10 +40,9 @@ class JobsApplyAdminListSerializers(serializers.ModelSerializer):
 
 class getJobSeekers_JobsApplyAdminListReadSerializers(serializers.ModelSerializer):
     user = JobSeekers_PublicSerializers()
-    is_saved = serializers.SerializerMethodField()
     class Meta:
         model = JobsApply
-        fields = ['user','created_date','status','is_saved']
+        fields = ['user','created_date','status','id']
     
     def get_is_saved(self,obj):
         return True
