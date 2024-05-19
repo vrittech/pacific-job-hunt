@@ -40,6 +40,7 @@ class Jobs(models.Model):
     category = models.ForeignKey(JobCategory,on_delete = models.PROTECT)
     company =  models.ForeignKey(Company,on_delete = models.CASCADE)
     is_active = models.BooleanField(default = True)
+    status = models.CharField(max_length = 20, choices = (('pending','Pending'),('rejected','Rejected'),('approved','Approved')),default = 'pending')
     is_verified = models.BooleanField(default = False)
 
     image = models.ImageField(upload_to='jobs/images',null=True)

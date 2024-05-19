@@ -11,6 +11,18 @@ class JobViewSets(viewsets.ModelViewSet):
     pagination_class = MyPageNumberPagination
     queryset  = Jobs.objects.all()
 
+    filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
+    search_fields = ['title','position']
+    ordering_fields = ['id']
+
+    filterset_fields = {
+        'category':['exact'],
+        'min_salary': ['exact', 'gte', 'lte'],
+        'level':['exact'],
+        'location':['icontains'],
+    }
+
+
     def get_queryset(self):
         return super().get_queryset()
 

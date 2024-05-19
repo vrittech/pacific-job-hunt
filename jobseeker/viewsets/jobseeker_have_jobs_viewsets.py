@@ -24,6 +24,8 @@ class JobSeekerHaveJobsViewSets(viewsets.ModelViewSet):
     filterset_fields = {
         'user':['exact'],
         'job':['exact'],
+        'status':['exact'],
+
     }
 
     def get_serializer_class(self):

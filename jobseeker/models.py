@@ -23,6 +23,7 @@ class JobSeekerHaveSkills(models.Model):
 class JobsApply(models.Model):
     user = models.ForeignKey(CustomUser,related_name = 'apply_jobs',on_delete = models.CASCADE)
     job = models.ForeignKey(Jobs,related_name ='job_seekers', on_delete = models.PROTECT)
+    status = models.CharField(max_length = 100 , choices = (('pending',"Pending"),('approved',"Approved"),('rejected',"Rejected")))
     created_date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self) -> str:
