@@ -5,7 +5,7 @@ from ..utilities.permission import JobPermission
 from accounts.models import roles
 
 class JobViewSets(viewsets.ModelViewSet):
-    serializer_class = JobWriteSerializers
+    serializer_class = JobListPublicSerializer
     permission_classes = [JobPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
