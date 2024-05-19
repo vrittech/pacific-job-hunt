@@ -45,7 +45,7 @@ class CustomUser(AbstractUser):
         elif self.role == roles.ADMIN:
             return roles_data_dict[roles.ADMIN]
         elif self.role == roles.JOBSEEKER:
-            return roles_data_dict[roles.SUPER_ADMIN]
+            return roles_data_dict[roles.JOBSEEKER]
         else:
             return None
         

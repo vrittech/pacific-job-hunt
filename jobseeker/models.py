@@ -17,7 +17,7 @@ class JobSeeker(models.Model):
         return self.user.username
 
 class JobSeekerHaveSkills(models.Model):
-    jobseeker = models.ForeignKey(JobSeeker, on_delete=models.CASCADE)
+    jobseeker = models.ForeignKey(JobSeeker, on_delete=models.CASCADE,related_name="jobseeker_skills")
     skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
     experience = models.PositiveIntegerField()  # in years
 
