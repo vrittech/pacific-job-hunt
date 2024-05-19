@@ -5,6 +5,7 @@ from job.models import JobCategory,Skills,Jobs
 # Create your models here.
 
 class JobSeeker(models.Model):
+    position = models.CharField(max_length = 1500)
     cv = models.FileField(upload_to='users/jobseeker/images',null=True)
     user = models.OneToOneField(CustomUser,related_name = 'jobseeker',on_delete = models.CASCADE)
     expected_salary = models.PositiveIntegerField()
@@ -23,7 +24,7 @@ class JobSeekerHaveSkills(models.Model):
 class JobsApply(models.Model):
     user = models.ForeignKey(CustomUser,related_name = 'apply_jobs',on_delete = models.CASCADE)
     job = models.ForeignKey(Jobs,related_name ='job_seekers', on_delete = models.PROTECT)
-    status = models.CharField(max_length = 100 , choices = (('pending',"Pending"),('approved',"Approved"),('rejected',"Rejected")))
+    status = models.CharField(max_length = 100 , choices = (('pending',"Pending"),('approved',"Approved"),('rejected',"Rejected")),default = "pending")
     created_date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self) -> str:

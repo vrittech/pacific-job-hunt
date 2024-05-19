@@ -2,11 +2,19 @@ from rest_framework import serializers
 from ..models import JobsApply
 from accounts.models import CustomUser
 from job.models import Jobs
+from jobseeker.models import JobSeeker
+
+
+class JobSeekersDetail_PublicSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = JobSeeker
+        fields = ['position']
 
 class JobSeekers_PublicSerializers(serializers.ModelSerializer):
+    jobseeker = JobSeekersDetail_PublicSerializers()
     class Meta:
         model = CustomUser
-        fields = ['id','first_name','email','last_name']
+        fields = ['id','first_name','email','last_name','jobseeker']
 
 class Job_PublicSerializers(serializers.ModelSerializer):
     class Meta:
@@ -32,9 +40,13 @@ class JobsApplyAdminListSerializers(serializers.ModelSerializer):
 
 class getJobSeekers_JobsApplyAdminListReadSerializers(serializers.ModelSerializer):
     user = JobSeekers_PublicSerializers()
+    is_saved = serializers.SerializerMethodField()
     class Meta:
         model = JobsApply
-        fields = ['user']
+        fields = ['user','created_date','status','is_saved']
+    
+    def get_is_saved(self,obj):
+        return True
 
 class JobsApplyAdminRetrieveSerializers(serializers.ModelSerializer):
     class Meta:
