@@ -2,10 +2,11 @@ from ..models import ProfessionalInformation
 from ..serializers.jobseeker_serializers import JobSeekerListPublicSerializers,JobSeekerRetrievePublicSerializers,JobSeekerListAdminSerializers,JobSeekerRetrieveAdminSerializers,JobSeekerWriteSerializers
 from ..utilities.importbase import *
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 
 class ProfessionalInformationViewset(viewsets.ModelViewSet):
     serializer_class = JobSeekerRetrieveAdminSerializers
-    permission_classes = [AdminViewSetsPermission]
+    permission_classes = [JobseekerPermission,IsAuthenticated]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = ProfessionalInformation.objects.all()
@@ -17,6 +18,10 @@ class ProfessionalInformationViewset(viewsets.ModelViewSet):
     filterset_fields = {
         'user':['exact'],
     }
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(user_id = self.request.user.id)
 
     def get_serializer_class(self):
         if self.action in ['create','update','partial_update']:

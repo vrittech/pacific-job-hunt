@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 
 class WorkExprienceViewset(viewsets.ModelViewSet):
     serializer_class = WorkExperienceRetrieveAdminSerializers
-    # permission_classes = [AdminViewSetsPermission]
+    permission_classes = [JobseekerPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = WorkExperience.objects.all()

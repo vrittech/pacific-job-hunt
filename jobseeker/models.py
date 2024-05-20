@@ -17,13 +17,13 @@ class ProfessionalInformation(models.Model):
         return self.user.username
     
 class JobSeekerHaveSkills(models.Model):
-    jobseeker = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="jobseeker_skills")
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="jobseeker_skills")
     skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
     experience = models.PositiveIntegerField(default = 1)  # in years
 
 class WorkExperience(models.Model):
     designation = models.CharField(max_length = 2000)
-    jobseeker = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="work_experience")
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="work_experience")
     experience = models.PositiveIntegerField()  # in years
     company_name  = models.CharField(max_length = 1500)
     designation = models.CharField(max_length = 1000)
@@ -34,7 +34,7 @@ class WorkExperience(models.Model):
 
 class Education(models.Model):
     college = models.CharField(max_length = 2000)
-    jobseeker = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="educations")
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="educations")
     degree_name = models.CharField(max_length = 1000)  # in years
     company_name  = models.CharField(max_length = 1500)
     education_level = models.CharField(max_length = 1000)
@@ -42,7 +42,7 @@ class Education(models.Model):
     end_date  = models.DateField(null = True)
 
 class MySocialMedia(models.Model):
-    jobseeker = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="social_media")
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="social_media")
     url = models.URLField()
     social_media = models.ForeignKey(SocialMedia,related_name="jobseeker_socialmedia",on_delete=models.CASCADE)
 

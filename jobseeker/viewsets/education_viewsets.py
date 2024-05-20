@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 
 class EducationViewset(viewsets.ModelViewSet):
     serializer_class = EducationRetrieveAdminSerializers
-    # permission_classes = [AdminViewSetsPermission]
+    permission_classes = [JobseekerPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = Education.objects.all()
