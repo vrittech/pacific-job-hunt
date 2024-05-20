@@ -55,7 +55,7 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
         'is_active':['exact'],
     }
 
-    authentication_classes = [JWTAuthentication]
+    # authentication_classes = [JWTAuthentication]
     permission_classes = [AccountPermission]
     
     def get_serializer_class(self):
