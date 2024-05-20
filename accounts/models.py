@@ -13,6 +13,7 @@ class CustomUser(AbstractUser):
     country = models.CharField(max_length=255,default = '')  
     last_name = models.CharField(max_length=255,null = True,default = '')  
     dob = models.DateField(null= True,blank= True ) 
+    gender = models.CharField(max_length = 40,choices = (('male','Male'),('female','Female'),('other','Other')),default = 'male')
 
     is_active = models.BooleanField(default=True)
     remarks = models.CharField(max_length=200,null=True,default = '')
