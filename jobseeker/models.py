@@ -1,25 +1,50 @@
 from django.db import models
 from accounts.models import CustomUser
 from job.models import JobCategory,Skills,Jobs
+from socialmedia.models import SocialMedia
 
 # Create your models here.
 
-class JobSeeker(models.Model):
+class ProfessionalInformation(models.Model):
     position = models.CharField(max_length = 1500)
     cv = models.FileField(upload_to='users/jobseeker/images',null=True)
     user = models.OneToOneField(CustomUser,related_name = 'jobseeker',on_delete = models.CASCADE)
     expected_salary = models.PositiveIntegerField()
     experience = models.PositiveIntegerField()
     job_category = models.ForeignKey(JobCategory,related_name = 'jobseekers',on_delete = models.PROTECT)
-    skills = models.ManyToManyField(Skills,through="JobSeekerHaveSkills",related_name='jobseekers')
-
+    
     def __str__(self) -> str:
         return self.user.username
-
+    
 class JobSeekerHaveSkills(models.Model):
-    jobseeker = models.ForeignKey(JobSeeker, on_delete=models.CASCADE,related_name="jobseeker_skills")
+    jobseeker = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="jobseeker_skills")
     skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
+    experience = models.PositiveIntegerField(default = 1)  # in years
+
+class WorkExperience(models.Model):
+    designation = models.CharField(max_length = 2000)
+    jobseeker = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="work_experience")
     experience = models.PositiveIntegerField()  # in years
+    company_name  = models.CharField(max_length = 1500)
+    designation = models.CharField(max_length = 1000)
+    job_categories = models.ForeignKey(JobCategory,related_name = "work_experience",on_delete = models.SET_NULL,null = True)
+    joined_date = models.DateField(null = True)
+    end_date  = models.DateField(null = True)
+    still_work = models.BooleanField(default = False)
+
+class Education(models.Model):
+    college = models.CharField(max_length = 2000)
+    jobseeker = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="educations")
+    degree_name = models.CharField(max_length = 1000)  # in years
+    company_name  = models.CharField(max_length = 1500)
+    education_level = models.CharField(max_length = 1000)
+    joined_date = models.DateField(null = True)
+    end_date  = models.DateField(null = True)
+
+class MySocialMedia(models.Model):
+    jobseeker = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="social_media")
+    url = models.URLField()
+    social_media = models.ForeignKey(SocialMedia,related_name="jobseeker_socialmedia",on_delete=models.CASCADE)
 
 class JobsApply(models.Model):
     user = models.ForeignKey(CustomUser,related_name = 'apply_jobs',on_delete = models.CASCADE)

@@ -1,14 +1,14 @@
-from ..models import JobSeeker
+from ..models import ProfessionalInformation
 from ..serializers.jobseeker_serializers import JobSeekerListPublicSerializers,JobSeekerRetrievePublicSerializers,JobSeekerListAdminSerializers,JobSeekerRetrieveAdminSerializers,JobSeekerWriteSerializers
 from ..utilities.importbase import *
 from rest_framework.decorators import action
 
-class JobSeekerViewSets(viewsets.ModelViewSet):
+class ProfessionalInformationViewset(viewsets.ModelViewSet):
     serializer_class = JobSeekerRetrieveAdminSerializers
     permission_classes = [AdminViewSetsPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset  = JobSeeker.objects.all()
+    queryset  = ProfessionalInformation.objects.all()
 
     filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
     search_fields = ['id']

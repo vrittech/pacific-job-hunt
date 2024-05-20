@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'jobseeker',
     'company',
     'report',
+    'socialmedia',
     'debug_toolbar',
 ]
 

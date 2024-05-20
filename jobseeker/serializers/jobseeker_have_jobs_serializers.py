@@ -2,7 +2,7 @@ from rest_framework import serializers
 from ..models import JobsApply
 from accounts.models import CustomUser
 from job.models import Jobs
-from jobseeker.models import JobSeeker,JobSeekerHaveSkills
+from jobseeker.models import ProfessionalInformation,JobSeekerHaveSkills
 
 class JobSeekersHaveSkill_PublicSerializers(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
@@ -21,7 +21,7 @@ class JobSeekersHaveSkill_PublicSerializers(serializers.ModelSerializer):
 class JobSeekersDetail_PublicSerializers(serializers.ModelSerializer):
     jobseeker_skills = JobSeekersHaveSkill_PublicSerializers(many = True)
     class Meta:
-        model = JobSeeker
+        model = ProfessionalInformation
         fields = '__all__'
 
 class JobSeekers_PublicSerializers(serializers.ModelSerializer):
