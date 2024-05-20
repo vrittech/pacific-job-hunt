@@ -13,20 +13,18 @@ def AdminEntrepreneurLevel(request):
 def isOwner(request):
     if str(request.user.id) == request.data.get('user'):
         return True
+    
+    elif len(request.data)==0 and len(request.POST)==0:
+        return True
+
     return False
 
 def isOwnerObject(request,object):
     if object.user_id == request.user.id:
         return True
+
     return False
 
-# def isCompanyOwner(request):
-#     company = Company.objects.filter(id = request.data.get('company_id'),owner_id = request.user.id)
-#     if not company.exists():
-#         return False
-#     elif request.user.id == order.first().user.id:
-#         return True
-#     return False
 
 class AdminViewSetsPermission(BasePermission):
     def has_permission(self, request, view):    
@@ -35,7 +33,9 @@ class AdminViewSetsPermission(BasePermission):
 
 class JobseekerPermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action in ["list","retrieve"]:
+        if view.action in ["list"]:
+            return True
+        elif view.action in ['retrieve']:
             return isOwnerObject(request,view.get_object())
         elif view.action in ['create','update']:
             return isOwner(request)

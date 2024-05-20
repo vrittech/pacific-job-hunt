@@ -17,6 +17,10 @@ class WorkExprienceViewset(viewsets.ModelViewSet):
     # filterset_fields = {
     #     'user':['exact'],
     # }
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(user_id = self.request.user.id)
 
     def get_serializer_class(self):
         if self.action in ['create','update','partial_update']:
