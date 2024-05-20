@@ -27,7 +27,7 @@ class AccountPermission(BasePermission):
             return False
 
 
-class AdminLevelPermission(BasePermission):
+class AdminLevelPermissions(BasePermission):
     def has_permission(self, request, view):
         method_name = view.action
         if method_name == 'list':

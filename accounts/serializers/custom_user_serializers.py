@@ -75,6 +75,11 @@ class CustomUserSerializer(serializers.ModelSerializer):
                     if not instance.check_password(old_password):
                         raise serializers.ValidationError("Password does not match")
             attrs['old_password_change_case'] = True
+        
+        # Ensure the email field is not changed
+        if self.instance and 'email' in attrs and self.instance.email != attrs['email']:
+            raise serializers.ValidationError({'email': 'Email cannot be changed.'})
+        
         return attrs        
 
     def get_extra_kwargs(self):
