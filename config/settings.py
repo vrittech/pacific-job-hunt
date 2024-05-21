@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'company',
     'report',
     'socialmedia',
+    'accountsmanagement',
     'debug_toolbar',
 ]
 
@@ -193,14 +194,26 @@ SIMPLE_JWT = {
 }
 # JWT_AUTH = {"JWT_ALLOW_REFRESH": True}
 
+
+# EMAIL_HOST  = os.getenv('EMAIL_HOST')
+# EMAIL_PORT = os.getenv('EMAIL_PORT')
+# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+# EMAIL_USE_TLS = True
+
+
+#Email
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_PORT="587"
+EMAIL_HOST_USER="manojdas.py@gmail.com"
+EMAIL_HOST_PASSWORD="qizi zhwj urhp vmvv"
 EMAIL_USE_TLS = True
-EMAIL_HOST = os.getenv('smtp.gmail.com')
-EMAIL_PORT = os.getenv('EMAIL_PORT')
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
 
 INTERNAL_IPS = [
     # ...
     "127.0.0.1",
     # ...
 ]
+
+SMS_KEY_PASSWORD = ''

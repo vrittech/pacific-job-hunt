@@ -16,6 +16,7 @@ class CustomUser(AbstractUser):
     gender = models.CharField(max_length = 40,choices = (('male','Male'),('female','Female'),('other','Other')),default = 'male')
 
     is_active = models.BooleanField(default=True)
+    is_verified = models.BooleanField(default=False)
     remarks = models.CharField(max_length=200,null=True,default = '')
 
     created_date = models.DateTimeField(auto_now_add=True)
