@@ -12,7 +12,7 @@ from rest_framework.decorators import action
 
 class JobSeekerHaveJobsViewSets(viewsets.ModelViewSet):
     serializer_class = JobsApplyPublicListSerializers
-    permission_classes = [AdminViewSetsPermission]
+    permission_classes = [JobSeekersApplySavedJobPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = JobsApply.objects.all()
@@ -49,7 +49,7 @@ class JobSeekerHaveJobsViewSets(viewsets.ModelViewSet):
         return super().get_serializer_class()
     
     @action(detail=False, methods=['get'], name="jobSeekers", url_path="get-job-seekers")
-    def jobSeekers(self, request, *args, **kwargs):
+    def jobSeekers(self, request, *args, **kwargs):#this response some additional data for admin,admin try to get some detail
         return super().list(request, *args, **kwargs)
     
     

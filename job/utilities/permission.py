@@ -31,11 +31,10 @@ def isOwnerJob(request,object):
 
 class JobPermission(BasePermission):
     def has_permission(self, request, view):
-        print(" creating ",view.action)
+    
         if view.action in ['list','retrieve']:
             return True
         elif view.action in ['update','create']:
-            print(" creating ")
             return AdminEntrepreneurLevel(request) and isCompanyOwner(request)
         
         elif view.action=="partial_update":
@@ -43,6 +42,10 @@ class JobPermission(BasePermission):
         
         elif view.action == "destroy":
             return AdminLevel(request) or (IsAuthenticated(request) and isOwnerJob(request,view.get_object()))
+        
+        elif view.action == "SavedUnsavedJobs":
+            return IsAuthenticated(request)
+        
         else:
             return False
         

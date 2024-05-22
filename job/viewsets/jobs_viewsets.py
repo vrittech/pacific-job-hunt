@@ -3,6 +3,9 @@ from ..serializers.jobs_serializers import JobListPublicSerializer,JobListAdminS
 from ..utilities.importbase import *
 from ..utilities.permission import JobPermission
 from accounts.models import roles
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from jobseeker.models import JobsBookmark
 
 class JobViewSets(viewsets.ModelViewSet):
     serializer_class = JobListPublicSerializer
@@ -46,3 +49,14 @@ class JobViewSets(viewsets.ModelViewSet):
             
         return super().get_serializer_class()
     
+ 
+    @action(detail=True, methods=['get'], name="SavedUnsavedJobs", url_path="job-save-unsave")
+    def SavedUnsavedJobs(self, request, *args, **kwargs):
+        obj = self.get_object()
+        saved_data = JobsBookmark.objects.filter(user = self.request.user , job = obj)
+        if saved_data.exists():
+            saved_data.delete()
+            return Response({'message':"job saved successfully"})
+        else:
+            JobsBookmark.objects.create(user = self.request.user,job = obj)
+            return Response({'message':"job deleted successfully"})

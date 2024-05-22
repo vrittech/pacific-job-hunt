@@ -30,6 +30,16 @@ class AdminViewSetsPermission(BasePermission):
     def has_permission(self, request, view):    
         return AdminLevel(request)
     
+class JobSeekersApplySavedJobPermission(BasePermission):
+    def has_permission(self, request, view):
+        if view.action in ['list']:
+            return True
+        elif view.action in ['retrieve']    :
+            return isOwnerObject(request,view.get_object())
+        elif view.action in ['create']:
+            return isOwner(request)
+        else:
+            return False
 
 class JobseekerPermission(BasePermission):
     def has_permission(self, request, view):
