@@ -18,17 +18,17 @@ class JobSeekersHaveSkill_PublicSerializers(serializers.ModelSerializer):
     def get_experience(self,obj):
         return "2"
 
-class JobSeekersDetail_PublicSerializers(serializers.ModelSerializer):
-    jobseeker_skills = JobSeekersHaveSkill_PublicSerializers(many = True)
+class Professional_information_PublicSerializers(serializers.ModelSerializer):
     class Meta:
         model = ProfessionalInformation
         fields = '__all__'
 
 class JobSeekers_PublicSerializers(serializers.ModelSerializer):
-    jobseeker = JobSeekersDetail_PublicSerializers()
+    professional_information = Professional_information_PublicSerializers()
+    jobseeker_skills = JobSeekersHaveSkill_PublicSerializers(many = True)
     class Meta:
         model = CustomUser
-        fields = ['id','first_name','email','last_name','jobseeker']
+        fields = ['id','first_name','email','last_name','professional_information','jobseeker_skills']
 
 class Job_PublicSerializers(serializers.ModelSerializer):
     class Meta:
