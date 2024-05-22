@@ -10,7 +10,6 @@ class ProfessionalInformation(models.Model):
     user = models.OneToOneField(CustomUser,related_name = 'professional_information',on_delete = models.CASCADE)
     expected_salary = models.PositiveIntegerField()
     experience = models.PositiveIntegerField()
-    job_category = models.ForeignKey(JobCategory,related_name = 'jobseekers',on_delete = models.PROTECT)
     interest = models.ManyToManyField(JobCategory,related_name="jobseekers_interests")
     about = models.TextField()
     address_1 = models.CharField(max_length = 450)
