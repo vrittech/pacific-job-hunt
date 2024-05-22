@@ -26,8 +26,6 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
-
-
 from company.urls import router as company_routers
 from accounts.router import router as accounts_urls
 from job.urls import router as job_routers

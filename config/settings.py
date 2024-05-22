@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'education',
     'workexperience',
     'jobbookmark',
+    'jobapply',
     'debug_toolbar',
 ]
 
