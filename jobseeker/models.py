@@ -38,28 +38,4 @@ class JobsApply(models.Model):
             models.UniqueConstraint(fields=['user', 'job'], name='unique_user_job_application')
         ]
 
-class JobsBookmark(models.Model):
-    user = models.ForeignKey(CustomUser,related_name = 'saved_jobs',on_delete = models.CASCADE)
-    job = models.ForeignKey(Jobs,related_name ='saved_jobs', on_delete = models.PROTECT)
-    created_date = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self) -> str:
-        return str(self.user.username)+'-'+str(self.job.title)
-    
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['user', 'job'], name='unique_user_job_saved_application')
-        ]
-
         
-
-# {
-#     "cv": "path/to/cv.pdf",
-#     "user": 1,  // Assuming the user ID to whom this employer belongs
-#     "expected_salary": 50000,
-#     "job_category": 1,  // Assuming the job category ID
-#     "skills": [  // Assuming skills are specified as a list of skill IDs
-#         {"skill": 1, "experience": 2},  // Skill ID and experience in years
-#         {"skill": 2, "experience": 3}
-#     ]
-# }

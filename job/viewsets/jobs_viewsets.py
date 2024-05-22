@@ -5,7 +5,7 @@ from ..utilities.permission import JobPermission
 from accounts.models import roles
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from jobseeker.models import JobsBookmark
+from jobbookmark.models import JobsBookmark
 
 class JobViewSets(viewsets.ModelViewSet):
     serializer_class = JobListPublicSerializer
