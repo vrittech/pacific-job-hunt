@@ -57,6 +57,8 @@ INSTALLED_APPS = [
     'socialmedia',
     'accountsmanagement',
     'professions',
+    'education',
+    'workexperience',
     'debug_toolbar',
 ]
 
