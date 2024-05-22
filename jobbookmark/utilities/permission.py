@@ -11,7 +11,7 @@ def AdminEntrepreneurLevel(request):
     return bool(IsAuthenticated(request) and request.user.role in [roles.ADMIN,roles.SUPER_ADMIN,roles.ENTREPRENEUR])
 
 def isOwner(request):
-    if str(request.user.id) == request.data.get('user'):
+    if str(request.user.id) == str(request.data.get('user')):
         return True
     
     elif len(request.data)==0 and len(request.POST)==0:

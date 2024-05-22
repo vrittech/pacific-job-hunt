@@ -5,10 +5,10 @@ from professions.models import Profession
 
 # Create your models here.
 class ProfessionalInformation(models.Model):
-    position = models.CharField(max_length = 1500)
+    # position = models.CharField(max_length = 1500)
     cv = models.FileField(upload_to='users/jobseeker/images',null=True)
     user = models.OneToOneField(CustomUser,related_name = 'professional_information',on_delete = models.CASCADE)
-    expected_salary = models.PositiveIntegerField()
+    # expected_salary = models.PositiveIntegerField()
     experience = models.PositiveIntegerField()
     interest = models.ManyToManyField(JobCategory,related_name="jobseekers_interests")
     about = models.TextField()
