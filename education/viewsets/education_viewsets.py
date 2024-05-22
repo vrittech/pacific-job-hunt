@@ -1,10 +1,10 @@
 from ..models import Education
-from ..serializers.education_serializers import EducationListPublicSerializers,EducationRetrievePublicSerializers,EducationListAdminSerializers,EducationRetrieveAdminSerializers,EducationWriteSerializers
+from ..serializers.education_serializers import EducationListSerializers,EducationRetrieveSerializers,EducationWriteSerializers
 from ..utilities.importbase import *
 from rest_framework.decorators import action
 
 class EducationViewset(viewsets.ModelViewSet):
-    serializer_class = EducationRetrieveAdminSerializers
+    serializer_class = EducationListSerializers
     permission_classes = [JobseekerPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
@@ -24,6 +24,8 @@ class EducationViewset(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action in ['create','update','partial_update']:
             return EducationWriteSerializers
+        elif self.action in ['retrieve']:
+            return EducationRetrieveSerializers
         return super().get_serializer_class()
     
     # @action(detail=False, methods=['get'], name="Educations", url_path="job-seekers")
