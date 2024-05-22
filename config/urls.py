@@ -32,6 +32,7 @@ from company.urls import router as company_routers
 from accounts.router import router as accounts_urls
 from job.urls import router as job_routers
 from jobseeker.urls import router as jobseeker_routers
+from professions.urls import router as professioin_routers
 
 router = routers.DefaultRouter()
 router.registry.extend(company_routers.registry)
@@ -39,6 +40,7 @@ router.registry.extend(accounts_urls.registry)
 router.registry.extend(jobseeker_routers.registry)
 router.registry.extend(accounts_urls.registry)
 router.registry.extend(job_routers.registry)
+router.registry.extend(professioin_routers.registry)
 
 schema_view = get_schema_view(
    openapi.Info(
