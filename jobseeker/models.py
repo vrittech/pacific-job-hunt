@@ -1,6 +1,7 @@
 from django.db import models
 from accounts.models import CustomUser
-from job.models import JobCategory,Skills,Jobs,Profession
+from job.models import JobCategory,Skills,Jobs
+from professions.models import Profession
 from socialmedia.models import SocialMedia
 
 # Create your models here.

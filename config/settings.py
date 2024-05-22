@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'report',
     'socialmedia',
     'accountsmanagement',
+    'professions',
     'debug_toolbar',
 ]
 
