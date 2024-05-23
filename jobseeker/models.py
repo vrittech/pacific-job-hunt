@@ -22,7 +22,7 @@ class ProfessionalInformation(models.Model):
 class JobSeekerHaveSkills(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="jobseeker_skills")
     skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
-    experience = models.PositiveIntegerField(default = 1)  # in years
+    experience = models.PositiveIntegerField(default = 1,blank=True)  # in years
 
 
         
