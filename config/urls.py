@@ -35,6 +35,7 @@ from education.urls import router as education_routers
 from workexperience.urls import router as workexperience_routers
 from jobbookmark.urls import router as jobbookmark_routers
 from jobapply.urls import router as jobapply_routers
+from socialmedia.urls import router as socialmedia_routers
 
 router = routers.DefaultRouter()
 router.registry.extend(company_routers.registry)
@@ -48,6 +49,8 @@ router.registry.extend(workexperience_routers.registry)
 
 router.registry.extend(jobbookmark_routers.registry)
 router.registry.extend(jobapply_routers.registry)
+
+router.registry.extend(socialmedia_routers.registry)
 
 schema_view = get_schema_view(
    openapi.Info(
