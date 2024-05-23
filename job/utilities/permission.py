@@ -13,7 +13,10 @@ def AdminEntrepreneurLevel(request):
 
 class AdminViewSetsPermission(BasePermission):
     def has_permission(self, request, view):
-        return AdminLevel(request)
+        if view.action in ['list','retrieve']:
+            return True
+        else:
+            return AdminLevel(request)
     
 def isCompanyOwner(request):
     print(request.data.get('company'))
