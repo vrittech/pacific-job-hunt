@@ -1,11 +1,19 @@
 from rest_framework import serializers
 from ..models import JobsBookmark
 from job.models import Jobs
+from company.models import Company
+
+class Company_PublicSerializers(serializers.ModelSerializer):
+    class Meta:
+        ref_name = "jobsaved"
+        model = Company
+        fields = ['company_name','company_slug','type','company_logo','company_banner','location']
 
 class Job_PublicSerializers(serializers.ModelSerializer):
+    company = Company_PublicSerializers()
     class Meta:
         model = Jobs
-        fields = ['id','title','position','level']
+        fields = ['id','title','position','level','location','required_number','company','image','created_date','salary_mode','min_salary','max_salary','timing','expiry_date']
         ref_name = "Job_PublicSerializers_JobsBookmark"
 
 class JobsBookmarkPublicListSerializers(serializers.ModelSerializer):
@@ -16,7 +24,7 @@ class JobsBookmarkPublicListSerializers(serializers.ModelSerializer):
         fields = '__all__'
     
     def get_is_apply(self,obj):
-        user = self.context.get('request')
+        user = self.context.get('request').user
         if user.is_authenticated:
             return user.apply_jobs.all().filter(job_id = obj.id).exists()
         return False
@@ -29,7 +37,7 @@ class JobsBookmarkPublicRetrieveSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_is_apply(self,obj):
-        user = self.context.get('request')
+        user = self.context.get('request').user
         if user.is_authenticated:
             return user.apply_jobs.all().filter(job_id = obj.id).exists()
         return False
