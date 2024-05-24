@@ -18,7 +18,7 @@ class Job_PublicSerializers(serializers.ModelSerializer):
 
 class JobsBookmarkPublicListSerializers(serializers.ModelSerializer):
     is_apply = serializers.SerializerMethodField()
-
+    job = Job_PublicSerializers()
     class Meta:
         model = JobsBookmark
         fields = '__all__'
