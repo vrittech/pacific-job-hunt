@@ -10,6 +10,15 @@ def AdminLevel(request):
 def AdminEntrepreneurLevel(request):
     return bool(IsAuthenticated(request) and request.user.role in [roles.ADMIN,roles.SUPER_ADMIN,roles.ENTREPRENEUR])
 
+def CompanyOwnerJob(request,object):
+    print(str(object.job.company.owner_id) == str(request.user.id),str(object.job.company.owner_id), str(request.user.id))
+    
+    if str(object.job.company.owner_id) == str(request.user.id):
+        return True
+    else:
+        pass
+
+
 def isOwner(request):
     if str(request.user.id) == str(request.data.get('user')):
         return True
@@ -20,11 +29,9 @@ def isOwner(request):
     return False
 
 def isOwnerObject(request,object):
-    if object.user_id == request.user.id:
+    if str(object.user_id) == str(request.user.id):
         return True
-
     return False
-
 
 class AdminViewSetsPermission(BasePermission):
     def has_permission(self, request, view):    
@@ -34,10 +41,17 @@ class JobSeekersApplySavedJobPermission(BasePermission):
     def has_permission(self, request, view):
         if view.action in ['list']:
             return True
+        elif view.action in ['jobSeekers']:
+            return True
         elif view.action in ['retrieve']    :
-            return isOwnerObject(request,view.get_object())
+            # return True
+            return isOwnerObject(request,view.get_object()) or CompanyOwnerJob(request,view.get_object())
         elif view.action in ['create']:
             return isOwner(request)
+        elif view.action in ['destroy']:
+            return CompanyOwnerJob(request,view.get_object())
+        elif view.action in ['partial_update']:
+            return CompanyOwnerJob(request,view.get_object())
         else:
             return False
 
@@ -53,4 +67,7 @@ class JobseekerPermission(BasePermission):
             return view.get_object().user_id == request.user.id
         elif view.action == 'destroy':
             return isOwnerObject(request,view.get_object())
+            
+        else:
+            return False
 

@@ -42,14 +42,8 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = ['username']
 
     def getRoleName(self):
-        if self.role==roles.SUPER_ADMIN:
-            return roles_data_dict[roles.SUPER_ADMIN]
-        elif self.role == roles.ADMIN:
-            return roles_data_dict[roles.ADMIN]
-        elif self.role == roles.JOBSEEKER:
-            return roles_data_dict[roles.JOBSEEKER]
-        else:
-            return None
+        return roles_data_dict.get(self.role,"None")
+    
         
     def __str__(self):
         return self.username + " "+ str(self.getRoleName())

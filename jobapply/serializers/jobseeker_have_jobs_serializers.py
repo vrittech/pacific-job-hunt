@@ -3,6 +3,7 @@ from ..models import JobsApply
 from accounts.models import CustomUser
 from job.models import Jobs
 from jobseeker.models import ProfessionalInformation,JobSeekerHaveSkills
+from company.models import Company
 
 class JobSeekersHaveSkill_PublicSerializers(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
@@ -30,12 +31,19 @@ class JobSeekers_PublicSerializers(serializers.ModelSerializer):
         model = CustomUser
         fields = ['id','first_name','email','last_name','professional_information','jobseeker_skills']
 
+class Company_PublicSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = ['company_name','company_slug','type','company_logo','company_banner','location']
+
 class Job_PublicSerializers(serializers.ModelSerializer):
+    company = Company_PublicSerializers()
     class Meta:
         model = Jobs
-        fields = ['id','title','position','level']
+        fields = ['id','title','position','level','location','required_number','company','image','created_date','salary_mode','min_salary','max_salary','timing','expiry_date']
 
 class JobsApplyPublicListSerializers(serializers.ModelSerializer):
+    job = Job_PublicSerializers()
     class Meta:
         model = JobsApply
         fields = '__all__'
@@ -47,7 +55,7 @@ class JobsApplyPublicRetrieveSerializers(serializers.ModelSerializer):
 
 class JobsApplyAdminListSerializers(serializers.ModelSerializer):
     user = JobSeekers_PublicSerializers()
-    job = Job_PublicSerializers()
+    # job = Job_PublicSerializers()
     class Meta:
         model = JobsApply
         fields = '__all__'

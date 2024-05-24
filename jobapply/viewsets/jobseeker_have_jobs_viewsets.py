@@ -28,6 +28,15 @@ class JobSeekerHaveJobsViewSets(viewsets.ModelViewSet):
 
     }
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+        print(queryset.filter(user = user),user)
+        if user.role == roles.JOBSEEKER:
+            return queryset.filter(user = user)
+        else:
+            return queryset
+
     def get_serializer_class(self):
         if self.action in ['create','update','partial_update']:
             return JobsApplyWriteSerializers
