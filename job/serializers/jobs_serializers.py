@@ -29,13 +29,14 @@ class JobListPublicSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
     def get_is_apply(self,obj):
-        user = self.context.get('user')
+        user = self.context.get('request')
         if user.is_authenticated:
             return user.apply_jobs.all().filter(job_id = obj.id).exists()
         return False
     
     def get_is_save(self,obj):
-        user = self.context.get('user')
+        # return False
+        user = self.context.get('request')
         if user.is_authenticated:
             return user.saved_jobs.all().filter(job_id = obj.id).exists()
         return False
@@ -64,13 +65,13 @@ class JobRetrievePublicSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_is_apply(self,obj):
-        user = self.context.get('user')
+        user = self.context.get('request')
         if user.is_authenticated:
             return user.apply_jobs.all().filter(job_id = obj.id).exists()
         return False
     
     def get_is_save(self,obj):
-        user = self.context.get('user')
+        user = self.context.get('request')
         if user.is_authenticated:
             return user.saved_jobs.all().filter(job_id = obj.id).exists()
         return False

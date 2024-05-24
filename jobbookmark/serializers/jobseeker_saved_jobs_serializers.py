@@ -16,7 +16,7 @@ class JobsBookmarkPublicListSerializers(serializers.ModelSerializer):
         fields = '__all__'
     
     def get_is_apply(self,obj):
-        user = self.context.get('user')
+        user = self.context.get('request')
         if user.is_authenticated:
             return user.apply_jobs.all().filter(job_id = obj.id).exists()
         return False
@@ -29,7 +29,7 @@ class JobsBookmarkPublicRetrieveSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_is_apply(self,obj):
-        user = self.context.get('user')
+        user = self.context.get('request')
         if user.is_authenticated:
             return user.apply_jobs.all().filter(job_id = obj.id).exists()
         return False
