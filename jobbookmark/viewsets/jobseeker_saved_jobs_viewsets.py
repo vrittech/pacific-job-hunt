@@ -1,7 +1,6 @@
 from ..models import JobsBookmark
 from ..serializers.jobseeker_saved_jobs_serializers import (
     JobsBookmarkPublicListSerializers,JobsBookmarkPublicRetrieveSerializers,
-    JobsBookmarkAdminListSerializers,JobsBookmarkAdminRetrieveSerializers,
     getJobSeekers_JobsBookmarkAdminListReadSerializers,
     JobsBookmarkWriteSerializers
     )
@@ -9,10 +8,11 @@ from ..serializers.jobseeker_saved_jobs_serializers import (
 from ..utilities.importbase import *
 from accounts import roles
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 
 class JobSeekerHaveSavedJobsViewSets(viewsets.ModelViewSet):
     serializer_class = JobsBookmarkPublicListSerializers
-    permission_classes = [JobSeekersApplySavedJobPermission]
+    permission_classes = [IsAuthenticated,JobSeekersApplySavedJobPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = JobsBookmark.objects.all()
@@ -26,22 +26,18 @@ class JobSeekerHaveSavedJobsViewSets(viewsets.ModelViewSet):
         'job':['exact'],
     }
 
+    def get_queryset(self):
+        return super().get_queryset().filter(user = self.request.user)
+
     def get_serializer_class(self):
         if self.action in ['create','update','partial_update']:
             return JobsBookmarkWriteSerializers
         elif self.action in ['jobSeekers']:
             return getJobSeekers_JobsBookmarkAdminListReadSerializers
         elif self.action in ['list']:
-            if self.request.user.is_authenticated and self.request.user.role in [roles.ADMIN,roles.SUPER_ADMIN,roles.ENTREPRENEUR]:
-                return JobsBookmarkAdminListSerializers
-            else:
-                return JobsBookmarkPublicListSerializers
+            return JobsBookmarkPublicListSerializers
         elif self.action in ['retrieve']:
-            if self.request.user.is_authenticated and self.request.user.role in [roles.ADMIN,roles.SUPER_ADMIN,roles.ENTREPRENEUR]:
-                return JobsBookmarkAdminRetrieveSerializers
-            else:
-                return JobsBookmarkPublicRetrieveSerializers
-            
+            return JobsBookmarkPublicRetrieveSerializers            
         return super().get_serializer_class()
     
     @action(detail=False, methods=['get'], name="jobSeekers", url_path="get-job-seekers")

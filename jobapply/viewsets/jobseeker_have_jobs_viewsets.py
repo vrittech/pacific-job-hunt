@@ -9,10 +9,11 @@ from ..serializers.jobseeker_have_jobs_serializers import (
 from ..utilities.importbase import *
 from accounts import roles
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 
 class JobSeekerHaveJobsViewSets(viewsets.ModelViewSet):
     serializer_class = JobsApplyPublicListSerializers
-    permission_classes = [JobSeekersApplySavedJobPermission]
+    permission_classes = [IsAuthenticated,JobSeekersApplySavedJobPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = JobsApply.objects.all()
@@ -31,7 +32,6 @@ class JobSeekerHaveJobsViewSets(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = super().get_queryset()
         user = self.request.user
-        print(queryset.filter(user = user),user)
         if user.role == roles.JOBSEEKER:
             return queryset.filter(user = user)
         else:
