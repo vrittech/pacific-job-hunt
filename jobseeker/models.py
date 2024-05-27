@@ -6,7 +6,7 @@ from professions.models import Profession
 # Create your models here.
 class ProfessionalInformation(models.Model):
     # position = models.CharField(max_length = 1500)
-    cv = models.FileField(upload_to='users/jobseeker/images',null=True)
+    cv = models.FileField(upload_to='users/jobseeker/cv',null=True)
     user = models.OneToOneField(CustomUser,related_name = 'professional_information',on_delete = models.CASCADE)
     # expected_salary = models.PositiveIntegerField()
     experience = models.PositiveIntegerField()
