@@ -24,5 +24,10 @@ class JobSeekerHaveSkills(models.Model):
     skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
     experience = models.PositiveIntegerField(default = 1,blank=True)  # in years
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'skill'], name='unique_user_have_skills')
+        ]
+
 
         
