@@ -13,7 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 
 class JobSeekerHaveJobsViewSets(viewsets.ModelViewSet):
     serializer_class = JobsApplyPublicListSerializers
-    # permission_classes = [IsAuthenticated,JobSeekersApplySavedJobPermission]
+    permission_classes = [IsAuthenticated,JobSeekersApplySavedJobPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = JobsApply.objects.all()
