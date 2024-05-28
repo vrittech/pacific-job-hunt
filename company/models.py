@@ -20,7 +20,7 @@ class Company(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
     company_name = models.CharField(max_length = 200)
     company_slug = models.CharField(max_length = 200,unique = True)
-    type = models.ForeignKey(CompanyType,null = True , on_delete = models.PROTECT)
+    type = models.ManyToManyField(CompanyType,related_name="companiess")
     mobile_number = models.CharField(max_length = 15)
     email = models.EmailField()
     company_logo = models.ImageField(upload_to='company/images')
