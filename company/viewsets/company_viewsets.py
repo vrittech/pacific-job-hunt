@@ -11,10 +11,11 @@ class CompanyViewSets(viewsets.ModelViewSet):
     queryset  = Company.objects.all()
 
     filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
-    search_fields = ['id','company_slug']
+    search_fields = ['company_name','company_slug','website','location']
     ordering_fields = ['id','company_slug']
     filterset_fields = {
-        # 'company_slug': ['exact', 'icontains'],
+        'company_slug': ['exact', 'icontains'],
+        'type':['exact'],
         'owner': ['exact'],
     }
 
