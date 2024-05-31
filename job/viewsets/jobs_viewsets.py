@@ -6,6 +6,7 @@ from accounts.models import roles
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from jobbookmark.models import JobsBookmark
+from ..utilities.job_filter import JobFilter
 
 class JobViewSets(viewsets.ModelViewSet):
     serializer_class = JobListPublicSerializer
@@ -17,17 +18,18 @@ class JobViewSets(viewsets.ModelViewSet):
     filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
     search_fields = ['title','position','company__company_name']
     ordering_fields = ['id']
+    filterset_class = JobFilter
 
-    filterset_fields = {
-        'category':['exact'], #multiple
-        'min_salary': ['exact', 'gte', 'lte'],
-        'level':['exact'],
-        'location':['exact'],
-        'timing':['exact'], #multiple
-        'salary_mode':['exact'],
-        'company__location':['icontains']
+    # filterset_fields = {
+    #     'category':['exact'], #multiple
+    #     'min_salary': ['exact', 'gte', 'lte'],
+    #     'level':['exact'],
+    #     'location':['exact'],
+    #     'timing':['exact'], #multiple
+    #     'salary_mode':['exact'],
+    #     'company__location':['icontains']
 
-    }
+    # }
 
 
     def get_queryset(self):
