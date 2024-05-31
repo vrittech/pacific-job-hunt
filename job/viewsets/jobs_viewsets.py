@@ -19,11 +19,11 @@ class JobViewSets(viewsets.ModelViewSet):
     ordering_fields = ['id']
 
     filterset_fields = {
-        'category':['exact'],
+        'category':['exact'], #multiple
         'min_salary': ['exact', 'gte', 'lte'],
         'level':['exact'],
-        'location':['exact'], 
-        'timing':['exact'],
+        'location':['exact'],
+        'timing':['exact'], #multiple
         'salary_mode':['exact'],
         'company__location':['icontains']
 
