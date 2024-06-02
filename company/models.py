@@ -37,3 +37,7 @@ class Company(models.Model):
             self.company_slug = slugify(self.company_name)+'-'+str(self.public_id)[1:5] + str(self.public_id)[-1:-5]
         super().save(*args, **kwargs)
 
+    @property
+    def get_total_active_job(self):
+        return 4
+
