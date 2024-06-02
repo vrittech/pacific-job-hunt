@@ -16,7 +16,7 @@ class JobViewSets(viewsets.ModelViewSet):
     queryset  = Jobs.objects.all()
 
     filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
-    search_fields = ['title','position','company__company_name']
+    search_fields = ['title','position__name','company__company_name']
     ordering_fields = ['id','created_date']
     filterset_class = JobFilter
 
