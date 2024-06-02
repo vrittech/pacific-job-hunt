@@ -17,8 +17,8 @@ class JobFilter(django_filters.FilterSet):
 
     def filter_by_category(self, queryset, name, value):
        
-        categories = self.request.GET.getlist('location')
-        queryset = queryset.filter(category__in=categories)
+        categories = self.request.GET.getlist('category')
+        queryset = queryset.filter(category_id__in=categories)
         return queryset
     
 
