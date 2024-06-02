@@ -55,3 +55,4 @@ class Jobs(models.Model):
 
     def __str__(self) -> str:
         return str(self.company.company_name)+"-"+str(self.title)
+    

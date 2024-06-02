@@ -2,6 +2,14 @@ from rest_framework import serializers
 from ..models import Jobs
 from company.models import Company
 from ..models import JobCategory
+from professions.models import Profession
+
+
+class Profession_PublicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profession
+        fields =  ['name','id']
+
 
 class Company_PublicSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,6 +30,7 @@ class JobCategory_JobRetrieveAdminSerializer(serializers.ModelSerializer):
 class JobListPublicSerializer(serializers.ModelSerializer):
     company = Company_PublicSerializer(read_only = True)
     category = JobCategory_PublicSerializer(read_only = True)
+    position = Profession_PublicSerializer(read_only = True)
     is_apply = serializers.SerializerMethodField()
     is_save = serializers.SerializerMethodField()
     class Meta:
@@ -44,6 +53,7 @@ class JobListPublicSerializer(serializers.ModelSerializer):
 class JobListAdminSerializer(serializers.ModelSerializer):
     company = Company_PublicSerializer(read_only = True)
     category = JobCategory_PublicSerializer(read_only = True)
+    position = Profession_PublicSerializer(read_only = True)
     class Meta:
         model = Jobs
         fields = '__all__'
@@ -51,6 +61,7 @@ class JobListAdminSerializer(serializers.ModelSerializer):
 class JobRetrieveAdminSerializer(serializers.ModelSerializer):
     company = Company_PublicSerializer(read_only = True)
     category = JobCategory_JobRetrieveAdminSerializer(read_only = True)
+    position = Profession_PublicSerializer(read_only = True)
     class Meta:
         model = Jobs
         fields = '__all__'
@@ -60,6 +71,7 @@ class JobRetrievePublicSerializer(serializers.ModelSerializer):
     category = JobCategory_PublicSerializer(read_only = True)
     is_apply = serializers.SerializerMethodField()
     is_save = serializers.SerializerMethodField()
+    position = Profession_PublicSerializer(read_only = True)
     class Meta:
         model = Jobs
         fields = '__all__'
