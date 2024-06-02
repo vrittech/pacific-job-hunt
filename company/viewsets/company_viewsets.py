@@ -18,6 +18,7 @@ class CompanyViewSets(viewsets.ModelViewSet):
         'company_slug': ['exact', 'icontains'],
         'type':['exact'],
         'owner': ['exact'],
+        'location':['icontains'],
     }
 
     lookup_field = "company_slug"
