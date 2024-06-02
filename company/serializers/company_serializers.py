@@ -10,7 +10,7 @@ class CompanyReadSerializers(serializers.ModelSerializer):
     type = CompanyTypePublicSerializers_CompanyReadSerializers(many = True)
     class Meta:
         model = Company
-        fields = '__all__'
+        fields = ['id','company_name','company_slug','type','mobile_number','email','company_logo','company_banner','about','company_size','website','is_verified','owner','location','created_date']
 
 class CompanySerializers(serializers.ModelSerializer):
     class Meta:

@@ -39,7 +39,7 @@ class Jobs(models.Model):
     min_salary = models.IntegerField(null = True)
     max_salary = models.IntegerField(null = True)
     category = models.ForeignKey(JobCategory,on_delete = models.PROTECT)
-    company =  models.ForeignKey(Company,on_delete = models.CASCADE)
+    company =  models.ForeignKey(Company,on_delete = models.CASCADE,related_name="jobs")
     is_active = models.BooleanField(default = True)
     status = models.CharField(max_length = 20, choices = (('pending','Pending'),('rejected','Rejected'),('approved','Approved')),default = 'pending')
     is_verified = models.BooleanField(default = False)

@@ -2,6 +2,7 @@ from django.db import models
 import uuid
 from django.utils.text import slugify
 from accounts.models import CustomUser
+from django.utils import timezone
 
 # Create your models here.
 class CompanyType(models.Model):
@@ -31,6 +32,7 @@ class Company(models.Model):
     is_verified = models.BooleanField(default = False)
     owner = models.ForeignKey(CustomUser,on_delete = models.PROTECT)
     location = models.CharField(max_length = 950)
+    created_date = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         if not self.company_slug:
@@ -38,6 +40,6 @@ class Company(models.Model):
         super().save(*args, **kwargs)
 
     @property
-    def get_total_active_job(self):
-        return 4
+    def total_active_job(self):
+        return self.jobs.filter(is_active=True, is_verified=True, expiry_date__gte=timezone.now()).count()
 
