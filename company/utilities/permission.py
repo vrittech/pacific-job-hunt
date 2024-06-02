@@ -29,7 +29,9 @@ def isOwnerCompany(request,object):
 #     return False
 
 class AdminViewSetsPermission(BasePermission):
-    def has_permission(self, request, view):    
+    def has_permission(self, request, view): 
+        if view.action in ["list","retrieve"]:
+            return True
         return AdminLevel(request)
     
 class CompanyPermission(BasePermission):
