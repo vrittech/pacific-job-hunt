@@ -24,7 +24,7 @@ class JobViewSets(viewsets.ModelViewSet):
     #     'category':['exact'], #multiple
     #     'min_salary': ['exact', 'gte', 'lte'],
     #     'level':['exact'],
-    #     'location':['exact'],
+    #     'location':['exact'],#multiple
     #     'timing':['exact'], #multiple
     #     'salary_mode':['exact'],
     #     'company__location':['icontains']
