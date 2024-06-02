@@ -2,6 +2,8 @@ from django.db import models
 import uuid
 from django.utils.text import slugify
 from company.models import Company
+from professions.models import Profession
+
 
 # Create your models here.
 
@@ -29,7 +31,7 @@ class Skills(models.Model):
 class Jobs(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
     title = models.CharField(max_length = 250,null=True,default='')
-    position = models.CharField(max_length = 200)
+    position = models.ForeignKey(Profession,related_name="jobs",on_delete=models.PROTECT)
     level = models.CharField(max_length = 50, choices = (('intern','Intern'),('junior','Junior'),('mid','Mid'),('senior','Senior'),('','')),default = '',null = True)
     location = models.CharField(max_length = 50, choices = (('on_site','on_site'),('remote','remote'),('hybrid','hybrid'),('','')),default = '',null = True)
     required_number = models.PositiveIntegerField()

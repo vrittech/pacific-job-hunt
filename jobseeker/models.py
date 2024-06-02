@@ -1,6 +1,6 @@
 from django.db import models
 from accounts.models import CustomUser
-from job.models import JobCategory,Skills,Jobs
+from job.models import JobCategory,Skills
 from professions.models import Profession
 
 # Create your models here.
