@@ -6,7 +6,7 @@ from resumes.models import Resumes
 # Create your models here.
 class JobsApply(models.Model):
     user = models.ForeignKey(CustomUser,related_name = 'apply_jobs',on_delete = models.CASCADE)
-    job = models.ForeignKey(Jobs,related_name ='job_seekers', on_delete = models.PROTECT)
+    job = models.ForeignKey(Jobs,related_name ='job_seekers', on_delete = models.CASCADE)
     status = models.CharField(max_length = 100 , choices = (('pending',"Pending"),('approved',"Approved"),('rejected',"Rejected")),default = "pending")
     full_name = models.CharField(max_length = 200)
     phone_number = models.CharField(max_length = 200)
