@@ -10,6 +10,7 @@ class JobFilter(django_filters.FilterSet):
         model = Jobs
         fields = {
             'min_salary': ['exact', 'gte', 'lte'],
+            'max_salary': ['exact', 'gte', 'lte'],
             'level': ['exact'],
             'salary_mode': ['exact'],
             'company__location': ['icontains']
