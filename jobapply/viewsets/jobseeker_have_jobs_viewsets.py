@@ -26,6 +26,7 @@ class JobSeekerHaveJobsViewSets(viewsets.ModelViewSet):
         'user':['exact'],
         'job':['exact'],
         'status':['exact'],
+        'is_saved_applicant':['exact'],
     }
 
     def get_queryset(self):

@@ -64,7 +64,7 @@ class getJobSeekers_JobsApplyAdminListReadSerializers(serializers.ModelSerialize
     user = JobSeekers_PublicSerializers()
     class Meta:
         model = JobsApply
-        fields = ['user','created_date','status','id','job']
+        fields = ['user','created_date','status','id','job','is_saved_applicant']
     
 
 class JobsApplyAdminRetrieveSerializers(serializers.ModelSerializer):
