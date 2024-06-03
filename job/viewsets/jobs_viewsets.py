@@ -46,7 +46,6 @@ class JobViewSets(viewsets.ModelViewSet):
         elif self.action in ['retrieve']:
             
             if self.request.user.is_authenticated and self.request.user.role in [roles.ADMIN,roles.SUPER_ADMIN,roles.ENTREPRENEUR]:
-                print(self.action)
                 return JobRetrieveAdminSerializer
             
             else:

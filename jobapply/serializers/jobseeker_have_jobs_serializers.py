@@ -4,6 +4,12 @@ from accounts.models import CustomUser
 from job.models import Jobs
 from jobseeker.models import ProfessionalInformation,JobSeekerHaveSkills
 from company.models import Company
+from professions.models import Profession
+
+class Profession_JobApplyPublicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profession
+        fields =  ['name','id']
 
 class JobSeekersHaveSkill_PublicSerializers(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
@@ -38,6 +44,7 @@ class Company_PublicSerializers(serializers.ModelSerializer):
 
 class Job_PublicSerializers(serializers.ModelSerializer):
     company = Company_PublicSerializers()
+    position = Profession_JobApplyPublicSerializer()
     class Meta:
         model = Jobs
         fields = ['id','title','position','level','location','required_number','company','image','created_date','salary_mode','min_salary','max_salary','timing','expiry_date']
