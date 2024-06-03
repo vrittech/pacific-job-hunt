@@ -16,6 +16,7 @@ class JobsApply(models.Model):
     cover_letter_file = models.FileField(upload_to='users/jobseeker/coverletter',null=True,blank=True)
     cover_letter_str = models.TextField(null= True,blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
+    is_saved_applicant = models.BooleanField(default = False)
     
     def __str__(self) -> str:
         return str(self.user.username)+'-'+str(self.job.title)
