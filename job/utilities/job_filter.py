@@ -13,7 +13,8 @@ class JobFilter(django_filters.FilterSet):
             'max_salary': ['exact', 'gte', 'lte'],
             'level': ['exact'],
             'salary_mode': ['exact'],
-            'company__location': ['icontains']
+            'company__location': ['icontains'],
+            'position': ['exact'],
         }
 
     def filter_by_category(self, queryset, name, value):
