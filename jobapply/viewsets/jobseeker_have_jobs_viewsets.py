@@ -19,14 +19,13 @@ class JobSeekerHaveJobsViewSets(viewsets.ModelViewSet):
     queryset  = JobsApply.objects.all()
 
     filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
-    search_fields = ['id']
+    search_fields = ['user__email','user__username']
     ordering_fields = ['id']
 
     filterset_fields = {
         'user':['exact'],
         'job':['exact'],
         'status':['exact'],
-
     }
 
     def get_queryset(self):
