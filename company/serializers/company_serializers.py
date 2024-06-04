@@ -28,7 +28,7 @@ class CompanyReadSerializers(serializers.ModelSerializer):
 class CompanySerializers(serializers.ModelSerializer):
 
     def to_internal_value(self, data):
-        if data.get('interest'):
+        if data.get('type'):
             data = str_to_list(data,'type')
             return super().to_internal_value(data)
         return super().to_internal_value(data)
