@@ -21,7 +21,7 @@ def isOwner(request):
     return False
 
 def isOwnerObject(request,object):
-    if object.user_id == request.user.id:
+    if str(object.user_id) == str(request.user.id):
         return True
 
     return False

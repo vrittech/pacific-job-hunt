@@ -2,6 +2,12 @@ from rest_framework import serializers
 from ..models import JobsBookmark
 from job.models import Jobs
 from company.models import Company
+from professions.models import Profession
+
+class Profession_PublicSerializerJobSaved(serializers.ModelSerializer):
+    class Meta:
+        model = Profession
+        fields =  ['name','id']
 
 class Company_PublicSerializers(serializers.ModelSerializer):
     class Meta:
@@ -11,6 +17,7 @@ class Company_PublicSerializers(serializers.ModelSerializer):
 
 class Job_PublicSerializers(serializers.ModelSerializer):
     company = Company_PublicSerializers()
+    position = Profession_PublicSerializerJobSaved()
     class Meta:
         model = Jobs
         fields = ['id','title','position','level','location','required_number','company','image','created_date','salary_mode','min_salary','max_salary','timing','expiry_date']
