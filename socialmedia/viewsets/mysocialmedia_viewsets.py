@@ -25,7 +25,7 @@ class MySocialMediaViewset(viewsets.ModelViewSet):
         return queryset.filter(user_id = self.request.user.id)
     
     def get_serializer_class(self):
-        if self.action in ['create','update','partial_update']:
+        if self.action in ['create','update','partial_update','MySocialMediasCreate']:
             return MySocialMediaWriteSerializers
         elif self.action in ['retrieve']:
             return MySocialMediaRetrieveSerializers
@@ -53,25 +53,24 @@ class MySocialMediaViewset(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         is_many = isinstance(request.data, list)
+        partial=kwargs.get('partial', False)
         if is_many:
             instances = []
             for item in request.data:
-                instance = self.get_object_from_data(item)
-                serializer = self.get_serializer(instance, data=item, partial=kwargs.get('partial', False))
-                serializer.is_valid(raise_exception=True)
+                serializer = self.update_from_MySocialMediasCreate(item,partial)
                 instances.append(serializer)
 
             for serializer in instances:
                 self.perform_update(serializer)
 
-            return Response([serializer.data for serializer in instances])
+            return Response({'message':"saved"})
         else:
             instance = self.get_object()
             serializer = self.get_serializer(instance, data=request.data, partial=kwargs.get('partial', False))
             serializer.is_valid(raise_exception=True)
             self.perform_update(serializer)
             return Response(serializer.data)
-
+    
     def get_object_from_data(self, data):
         lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
         lookup_value = data.get(self.lookup_field)
@@ -83,10 +82,32 @@ class MySocialMediaViewset(viewsets.ModelViewSet):
         return obj
 
     def perform_update(self, serializer):
-        serializer.save()
-
+        serializer.save()        
     
-    # @action(detail=False, methods=['get'], name="MySocialMedias", url_path="job-seekers")
-    # def MySocialMedias(self, request, *args, **kwargs):
-    #     return super().list(request, *args, **kwargs)
+    @action(detail=False, methods=['post'], name="MySocialMediasCreate", url_path="bulk-save")
+    def MySocialMediasCreate(self, request, *args, **kwargs):
+        instances = []
+        partial=kwargs.get('partial', False)
+        print("MySocialMediasCreate   ")
+        for item in request.data:
+            print(item,item.get('id'),type(item.get('id')))
+            if item.get('id'):
+                serializer = self.update_from_MySocialMediasCreate(item,partial)
+            else:
+                serializer = self.get_serializer(data=item)
+                serializer.is_valid(raise_exception=True)
+                serializer = self.perform_create(serializer)
+                print(" saved ")
+
+            instances.append(serializer)
+
+        return Response({'message':"saved"})
+
+
+    def update_from_MySocialMediasCreate(self,item,partial):
+        instance = self.get_queryset().get(id=item.get('id'))
+        serializer = self.get_serializer(instance, data=item, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return serializer
     
