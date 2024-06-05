@@ -5,10 +5,11 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
+from rest_framework.permissions import IsAuthenticated
 
 class MySocialMediaViewset(viewsets.ModelViewSet):
     serializer_class = MySocialMediaListSerializers
-    # permission_classes = [JobseekerPermission]
+    permission_classes = [IsAuthenticated]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = MySocialMedia.objects.all()
@@ -26,6 +27,8 @@ class MySocialMediaViewset(viewsets.ModelViewSet):
     
     def get_serializer_class(self):
         if self.action in ['create','update','partial_update','MySocialMediasCreate']:
+            return MySocialMediaWriteSerializers #please implement permissions, not secure
+        elif self.action == "MySocialMediasCreate":
             return MySocialMediaWriteSerializers
         elif self.action in ['retrieve']:
             return MySocialMediaRetrieveSerializers
@@ -57,7 +60,7 @@ class MySocialMediaViewset(viewsets.ModelViewSet):
         if is_many:
             instances = []
             for item in request.data:
-                serializer = self.update_from_MySocialMediasCreate(item,partial)
+                serializer = self.update_from_MySocialMediasCreate(request,item,partial)
                 instances.append(serializer)
 
             for serializer in instances:
@@ -88,24 +91,21 @@ class MySocialMediaViewset(viewsets.ModelViewSet):
     def MySocialMediasCreate(self, request, *args, **kwargs):
         instances = []
         partial=kwargs.get('partial', False)
-        print("MySocialMediasCreate   ")
         for item in request.data:
-            print(item,item.get('id'),type(item.get('id')))
             if item.get('id'):
-                serializer = self.update_from_MySocialMediasCreate(item,partial)
+                serializer = self.update_from_MySocialMediasCreate(request,item,partial)
             else:
                 serializer = self.get_serializer(data=item)
                 serializer.is_valid(raise_exception=True)
                 serializer = self.perform_create(serializer)
-                print(" saved ")
 
             instances.append(serializer)
 
         return Response({'message':"saved"})
 
 
-    def update_from_MySocialMediasCreate(self,item,partial):
-        instance = self.get_queryset().get(id=item.get('id'))
+    def update_from_MySocialMediasCreate(self,request,item,partial):
+        instance = self.get_queryset().get(id=item.get('id'),user = request.user)
         serializer = self.get_serializer(instance, data=item, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
