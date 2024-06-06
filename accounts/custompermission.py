@@ -10,7 +10,6 @@ def ownerPermission(request,view,label):
         return True
     
     payload_user = view.get_object()
-    print(payload_user,label,request.user.id)
     if request.user.id == payload_user.id:
         return True
     else:
@@ -22,6 +21,7 @@ def AdminPermission(request):
 class AccountPermission(BasePermission):
     def has_permission(self, request, view):
         method_name = view.action
+        print(method_name)
         if method_name == 'list':
             return True
         elif method_name == 'create':
@@ -30,10 +30,9 @@ class AccountPermission(BasePermission):
         elif method_name == 'retrieve':
             return True
         elif method_name == 'update':
-            print("on going ")
             return IsAuthenticated(request) and ownerPermission(request,view,'id')
         elif method_name == 'partial_update':
-            return ownerPermission(request,view,'id')
+            return IsAuthenticated(request) and ownerPermission(request,view,'id')
         elif method_name == 'destroy':
             return False
         else:

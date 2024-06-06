@@ -25,7 +25,7 @@ from accounts.serializers.custom_user_serializers import LoginSerializer
 from accounts.serializers.custom_user_serializers import (
     CustomUserReadSerializer,CustomUserSerializer, GroupSerializer, 
     PermissionSerializer,RoleSerializer,CustomUserReadLimitedSerializer,
-    UserDetailsSerializer,CustomUserReadLimitedSerializer_1
+    UserDetailsSerializer,CustomUserReadLimitedSerializer_1,CustomUsermyIdentitySerializer
     )
 
 from .custompermission import AccountPermission,AllUserDataPermission
@@ -36,6 +36,7 @@ from .google_virify import VerifyGoogleToken
 from django.core.cache import cache
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from rest_framework.decorators import action
 cache_time = 300 # 300 is 5 minute
 
 
@@ -61,10 +62,13 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
             return CustomUserSerializer
+        elif self.action == 'myIdentity':
+            return CustomUsermyIdentitySerializer         
         return super().get_serializer_class()
     
     def get_queryset(self):
         user = self.request.user
+        print(user)
         queryset =  CustomUser.objects.all()
         
         if not user.is_authenticated:
@@ -75,6 +79,7 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
             query = queryset.filter(is_active = True)
         else:
             query = queryset.filter(id=user.id,is_active = True)
+            print(query)
         return query.order_by("-created_date")
     
     # @method_decorator(cache_page(cache_time,key_prefix="CustomUser"))
@@ -125,6 +130,10 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
 
             # Return the custom response
         return Response(response_data, status=status.HTTP_201_CREATED)
+    
+    @action(detail=True, methods=['get'], name="myIdentity", url_path="my-identity")
+    def myIdentity(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 class RoleViewSet(APIView):

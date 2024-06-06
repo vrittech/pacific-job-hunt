@@ -1,11 +1,17 @@
 from rest_framework import serializers
 from django.contrib.auth.models import Group,Permission
 from ..models import CustomUser
+from company.models import Company
 from django.contrib.auth.hashers import make_password
 from .. import roles
 
+class CompanySerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = ['id', 'company_name', 'company_slug', 'type', 'email']
 
 class CustomUserReadSerializer(serializers.ModelSerializer):
+    my_companies = CompanySerializers(many = True)
     class Meta:
         ref_name =  "account serializers"
         model = CustomUser
@@ -130,6 +136,15 @@ class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['id', 'full_name', 'phone', 'image', 'email']
+
+
+class CustomUsermyIdentitySerializer(serializers.ModelSerializer):
+    my_companies = CompanySerializers(many = True)
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'full_name', 'phone', 'image', 'email','role']
     
+    
+  
   
     

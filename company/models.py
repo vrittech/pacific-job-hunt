@@ -30,7 +30,7 @@ class Company(models.Model):
     company_size = models.CharField(max_length = 350)
     website = models.URLField(max_length = 300)
     is_verified = models.BooleanField(default = False)
-    owner = models.ForeignKey(CustomUser,on_delete = models.PROTECT)
+    owner = models.ForeignKey(CustomUser,on_delete = models.PROTECT,related_name="my_companies")
     location = models.CharField(max_length = 950)
     created_date = models.DateTimeField(auto_now_add=True)
 
