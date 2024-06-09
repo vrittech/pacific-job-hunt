@@ -7,6 +7,7 @@ from .. import roles
 
 class CompanySerializers(serializers.ModelSerializer):
     class Meta:
+        ref_name = "accountsCompanySerializers"
         model = Company
         fields = ['id', 'company_name', 'company_slug', 'type', 'email']
 
@@ -142,7 +143,7 @@ class CustomUsermyIdentitySerializer(serializers.ModelSerializer):
     my_companies = CompanySerializers(many = True)
     class Meta:
         model = CustomUser
-        fields = ['id', 'full_name', 'phone', 'image', 'email','role']
+        fields = ['id', 'full_name', 'phone', 'image', 'email','role','my_companies']
     
     
   
