@@ -19,7 +19,7 @@ urlpatterns = [
     path('check-token-status/',CheckTokenExpireView.as_view(),name="token_verify"),
     path('roles/',RoleViewSet.as_view()),
 
-    path('add-customized-permission/',CustomPermissionInsert,name="CustomPermissionInsert"),
+    # path('add-customized-permission/',CustomPermissionInsert,name="CustomPermissionInsert"),
 
     # path('get-limited-user-data/',userLimitedData.as_view(),name="userLimitedData"),
     # path('get-all-users-data/',AllUserData.as_view(),name="userLimitedData"),
