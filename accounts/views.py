@@ -15,9 +15,7 @@ from rest_framework_simplejwt.tokens import RefreshToken,TokenError
 from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import generics
-
 from .models import CustomUser
-
 from . import roles
 from .roles import roles_data
 

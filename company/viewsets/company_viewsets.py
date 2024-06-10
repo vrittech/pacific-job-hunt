@@ -1,9 +1,10 @@
 from ..models import Company
-from ..serializers.company_serializers import CompanyReadSerializers,CompanySerializers
+from ..serializers.company_serializers import CompanyReadSerializers,CompanySerializers,signUpCompanySerializers
 from ..utilities.importbase import *
 from ..utilities.permission import CompanyPermission
 from django.db.models import Count, Q
 from django.utils import timezone
+from rest_framework.decorators import action
 
 class CompanyViewSets(viewsets.ModelViewSet):
     serializer_class = CompanyReadSerializers
@@ -23,8 +24,21 @@ class CompanyViewSets(viewsets.ModelViewSet):
 
     lookup_field = "company_slug"
     def get_serializer_class(self):
-        print(self.queryset)
         if self.action in ['create','update','partial_update']:
             return CompanySerializers
+        elif self.action in ['signUpCompany']:
+            return signUpCompanySerializers
         return super().get_serializer_class()
+    
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
+    
+
+    @action(detail=False, methods=['post'], name="signUpCompany", url_path="signup-company")
+    def jobSeekers(self, request, *args, **kwargs):
+        data = request.data
+        print(data)
+        return super().create(request, *args, **kwargs)
+    
+    
     

@@ -36,3 +36,10 @@ class CompanySerializers(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = '__all__'
+
+
+class signUpCompanySerializers(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Company
+        fields = '__all__'
