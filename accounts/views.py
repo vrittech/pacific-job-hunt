@@ -34,6 +34,7 @@ from .pagination import PageNumberPagination
 
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+from django.db.models import Q
 
 
 from .google_virify import VerifyGoogleToken
