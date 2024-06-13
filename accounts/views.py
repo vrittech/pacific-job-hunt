@@ -281,7 +281,7 @@ class LoginView(views.APIView):
                 return Response({'error': 'Your Account is inactive'}, status=status.HTTP_401_UNAUTHORIZED)
             login(request, user)
             refresh = RefreshToken.for_user(user)
-            user_obj = CustomUserSerializer(request.user,context={'request': request}) 
+            user_obj = CustomUserReadSerializer(request.user,context={'request': request}) 
             return Response({
                 'access': str(refresh.access_token),
                 'refresh': str(refresh),
