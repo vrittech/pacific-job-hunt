@@ -223,3 +223,11 @@ INTERNAL_IPS = [
 ]
 
 SMS_KEY_PASSWORD = ''
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
+    }
+}
