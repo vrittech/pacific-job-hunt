@@ -35,6 +35,8 @@ class AccountPermission(BasePermission):
             return IsAuthenticated(request) and ownerPermission(request,view,'id')
         elif method_name == 'destroy':
             return False
+        elif method_name in ['JobseekersList','JobseekersDetail','EmployerList','EmployerDetail']:
+            return True
         else:
             return False
 

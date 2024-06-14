@@ -22,14 +22,15 @@ from .roles import roles_data
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-from accounts.serializers.custom_user_serializers import LoginSerializer
+from .serializers.Jobseeker_serializers import JobseekersDetailSerializers
+from .serializers.employer_serializers import EmployerDetailSerializers
 from accounts.serializers.custom_user_serializers import (
     CustomUserReadSerializer,CustomUserSerializer, GroupSerializer, 
     PermissionSerializer,RoleSerializer,CustomUserReadLimitedSerializer,
     UserDetailsSerializer,CustomUserReadLimitedSerializer_1,CustomUsermyIdentitySerializer
     )
 
-from .custompermission import AccountPermission,AllUserDataPermission
+from .custompermission import AccountPermission
 from .pagination import PageNumberPagination
 
 from drf_yasg import openapi
@@ -71,7 +72,11 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
         if self.action in ['create', 'update', 'partial_update']:
             return CustomUserSerializer
         elif self.action == 'myIdentity':
-            return CustomUsermyIdentitySerializer         
+            return CustomUsermyIdentitySerializer  
+        elif self.action in ['JobseekersList','JobseekersDetail']:
+            return JobseekersDetailSerializers
+        elif self.action in ['EmployerList','EmployerDetail']:
+            return EmployerDetailSerializers
         return super().get_serializer_class()
     
     def get_queryset(self):
@@ -82,6 +87,10 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
         if not user.is_authenticated:
             query = CustomUser.objects.none()
         elif user.role == roles.SUPER_ADMIN: 
+            if self.request.method in ['JobseekersList','JobseekersDetail']:
+                return queryset.filter(role = roles.JOBSEEKER)
+            elif self.request.method in ['EmployerList','EmployerDetail']:
+                return queryset.filter(role = roles.ENTREPRENEUR)
             query = queryset       
         elif user.role == roles.ADMIN: 
             query = queryset.filter(is_active = True)
@@ -141,6 +150,22 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
     
     @action(detail=True, methods=['get'], name="myIdentity", url_path="my-identity")
     def myIdentity(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    
+    @action(detail=False, methods=['get'], name="JobseekersList", url_path="jobseekers-lists")
+    def JobseekersList(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    
+    @action(detail=False, methods=['get'], name="EmployerList", url_path="employer-list")
+    def EmployerList(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    
+    @action(detail=True, methods=['get'], name="JobseekersDetail", url_path="jobseekers-detail")
+    def JobseekersDetail(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    
+    @action(detail=True, methods=['get'], name="EmployerDetail", url_path="employer-detail")
+    def EmployerDetail(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
 
