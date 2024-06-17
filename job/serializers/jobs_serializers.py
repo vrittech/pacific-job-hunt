@@ -16,6 +16,11 @@ class Company_PublicSerializer(serializers.ModelSerializer):
         model = Company
         fields =  ['company_name','company_slug','company_logo','location','type']
 
+class Company_RetrieveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields =  ['company_name','company_slug','company_logo','location','type']
+
 class JobCategory_PublicSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobCategory
@@ -67,7 +72,7 @@ class JobRetrieveAdminSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class JobRetrievePublicSerializer(serializers.ModelSerializer):
-    company = Company_PublicSerializer(read_only = True)
+    company = Company_RetrieveSerializer(read_only = True) #company social media requirement.
     category = JobCategory_PublicSerializer(read_only = True)
     is_apply = serializers.SerializerMethodField()
     is_save = serializers.SerializerMethodField()
