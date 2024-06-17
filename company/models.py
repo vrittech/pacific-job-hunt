@@ -27,11 +27,11 @@ class Company(models.Model):
     company_logo = models.ImageField(upload_to='company/images',null=True,blank=True)
     company_banner = models.ImageField(upload_to='company/images',null=True,blank=True)
     about = models.TextField(null = True,blank = True)
-    company_size = models.CharField(max_length = 350)
-    website = models.URLField(max_length = 300)
+    company_size = models.CharField(max_length = 350,null = True)
+    website = models.URLField(max_length = 300,null = True)
     is_verified = models.BooleanField(default = False)
     owner = models.ForeignKey(CustomUser,on_delete = models.PROTECT,related_name="my_companies")
-    location = models.CharField(max_length = 950)
+    location = models.CharField(max_length = 950,null  = True)
     created_date = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):

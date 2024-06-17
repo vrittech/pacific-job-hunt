@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from ..models import Company,CompanyType
 import ast
+from accounts.models import CustomUser
 
 def str_to_list(data,value_to_convert):
     mutable_data = data.dict()
@@ -29,8 +30,9 @@ class CompanySerializers(serializers.ModelSerializer):
 
     def to_internal_value(self, data):
         if data.get('type'):
-            data = str_to_list(data,'type')
-            return super().to_internal_value(data)
+            if isinstance(data.get('some'), str):
+                data = str_to_list(data,'type')
+                return super().to_internal_value(data)
         return super().to_internal_value(data)
     
     class Meta:
@@ -40,6 +42,18 @@ class CompanySerializers(serializers.ModelSerializer):
 
 class signUpCompanySerializers(serializers.ModelSerializer):
     
+    password = serializers.CharField()
+    owner_email = serializers.EmailField()
+    email = serializers.EmailField()
+    mobile_number = serializers.CharField()
+    owner_name = serializers.CharField()
+    company_name = serializers.CharField()
+    company_slug = serializers.CharField()
     class Meta:
         model = Company
+        fields = ['password','owner_email','email','mobile_number','owner_name','type','company_slug','company_name']
+    
+class CustomUserSerializer_CompanySignup(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
         fields = '__all__'
