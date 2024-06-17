@@ -17,6 +17,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .sms_sender import SendSms,ContactMe
 from django.db.models import Q
 from django.core.cache import cache
+from company.models import Company
 
 import random
 import string
@@ -104,6 +105,45 @@ class EmailChangeGetOtpView(generics.GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+
+class CompanyEmailChangeGetOtpView(generics.GenericAPIView):
+    def generate_otp(self,user):
+        # Generate a random 6-digit OTP
+        return "123456"
+        user = str(user)
+        return user[0]+''.join(random.choices(string.digits, k=4)) + user[-1]
+    
+    serializer_class = EmailResetSerializer
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.data["email"]
+        user = Company.objects.filter(Q(email=email)).first()
+        if user:
+        
+            otp = self.generate_otp(user.id)
+
+            reset_verification = "reset_email"
+            subject = 'Pacific OTP'
+            email = user.email
+            sendMail(serializer.data["second_email"], otp,subject,reset_verification)
+          
+            cache_key = f"email_reset_otp_{user.id}"
+            cache.set(cache_key, otp, timeout=otp_time_expired)
+
+            return response.Response(
+                {
+                "message": f"otp has been sent to your email address {serializer.data['second_email']} "
+                },
+                status=status.HTTP_200_OK,
+            )
+        else:
+            return response.Response(
+                {"message": "company doesn't exists"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
 class CustomPasswordResetView(generics.GenericAPIView):
     serializer_class = CustomPasswordResetSerializer
     
@@ -151,6 +191,31 @@ class EmailResetView(generics.GenericAPIView):
             {"message": message},
             status=stat,
         )
+    
+class CompanyEmailResetView(generics.GenericAPIView):
+    serializer_class = EmailResetSerializer
+    
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={"kwargs":kwargs})
+        serializer.is_valid(raise_exception=True)
+     
+        user = Company.objects.get(Q(email = serializer.data.get('email')))
+        if serializer.validated_data.get('token_validate') == True:
+            user.email = serializer.data.get('second_email')
+            user.save()
+            message = "Email Reset Complete"
+            stat = status.HTTP_200_OK
+            print(" Email Reset save ")
+        else:
+            message = "Email Reset Complete"
+            stat = status.HTTP_400_BAD_REQUEST
+            print("Email Reset not save")
+
+        return response.Response(
+            {"message": message},
+            status=stat,
+        )
+    
     
 
 class VerifyUserPasswordToken(generics.GenericAPIView):

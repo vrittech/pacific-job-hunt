@@ -23,7 +23,7 @@ class Company(models.Model):
     company_slug = models.CharField(max_length = 200,unique = True)
     type = models.ManyToManyField(CompanyType,related_name="companiess")
     mobile_number = models.CharField(max_length = 15)
-    email = models.EmailField()
+    email = models.EmailField(unique = True)
     company_logo = models.ImageField(upload_to='company/images',null=True,blank=True)
     company_banner = models.ImageField(upload_to='company/images',null=True,blank=True)
     about = models.TextField(null = True,blank = True)

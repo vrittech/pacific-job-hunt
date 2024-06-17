@@ -297,6 +297,8 @@ class LoginView(views.APIView):
 
         # Authenticate the user using either username or email
         user = authenticate(request, username=username_or_email, password=password)
+        if request.data.get('role') and str(request.data.get('role')) != str(user.role):
+            return Response({'message': f'Please login as {roles.roles_data_dict.get(user.role)}'}, status=status.HTTP_401_UNAUTHORIZED)
         if user is None:
             user = authenticate(request, email=username_or_email, password=password)
 
