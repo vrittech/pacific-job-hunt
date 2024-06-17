@@ -30,7 +30,7 @@ class CompanySerializers(serializers.ModelSerializer):
 
     def to_internal_value(self, data):
         if data.get('type'):
-            if isinstance(data.get('some'), str):
+            if isinstance(data.get('type'), str):
                 data = str_to_list(data,'type')
                 return super().to_internal_value(data)
         return super().to_internal_value(data)
