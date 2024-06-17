@@ -15,6 +15,7 @@ class JobFilter(django_filters.FilterSet):
             'salary_mode': ['exact'],
             'company__location': ['icontains'],
             'position': ['exact'],
+            'company':['exact'],
         }
 
     def filter_by_category(self, queryset, name, value):
