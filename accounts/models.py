@@ -54,4 +54,7 @@ class CustomUser(AbstractUser):
         except:
             return self.username
 
-
+    def save(self, *args, **kwargs):
+        if not self.is_active:
+            self.is_active = True
+        super().save(*args, **kwargs)
