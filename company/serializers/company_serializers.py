@@ -39,6 +39,15 @@ class CompanySerializers(serializers.ModelSerializer):
         model = Company
         fields = '__all__'
 
+    def get_fields(self):
+        fields = super(CompanySerializers, self).get_fields()
+        # Check if the request method is PUT or PATCH
+        request = self.context.get('request')
+        if request and request.method in ['PUT', 'PATCH']:
+            fields['owner'].read_only = True
+
+        return fields
+
 
 class signUpCompanySerializers(serializers.ModelSerializer):
     

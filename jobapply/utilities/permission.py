@@ -39,6 +39,7 @@ class AdminViewSetsPermission(BasePermission):
     
 class JobSeekersApplySavedJobPermission(BasePermission):
     def has_permission(self, request, view):
+        print(view.action, "  methto ")
         if view.action in ['list']:
             return True
         elif view.action in ['jobSeekers']:
