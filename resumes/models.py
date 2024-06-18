@@ -1,7 +1,7 @@
 from django.db import models
 from accounts.models import CustomUser
 
-# Create your models here.
+# Create your models heres.
 
 class Resumes(models.Model):
     cv = models.FileField(upload_to='users/jobseeker/cv')
