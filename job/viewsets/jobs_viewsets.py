@@ -7,6 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from jobbookmark.models import JobsBookmark
 from ..utilities.job_filter import JobFilter
+from django.utils import timezone
 
 class JobViewSets(viewsets.ModelViewSet):
     serializer_class = JobListPublicSerializer
@@ -20,20 +21,18 @@ class JobViewSets(viewsets.ModelViewSet):
     ordering_fields = ['id','created_date','position__name']
     filterset_class = JobFilter
 
-    # filterset_fields = {
-    #     'category':['exact'], #multiple
-    #     'min_salary': ['exact', 'gte', 'lte'],
-    #     'level':['exact'],
-    #     'location':['exact'],#multiple
-    #     'timing':['exact'], #multiple
-    #     'salary_mode':['exact'],
-    #     'company__location':['icontains']
-
-    # }
-
-
+ 
     def get_queryset(self):
-        return super().get_queryset()
+        user = self.request.user
+        query = super().get_queryset()
+        # return query
+        if user.is_authenticated and user.role == roles.JOBSEEKER:
+            query = query.filter(is_active = True).filter(expiry_date__gt=timezone.now())
+        elif user.is_authenticated and user.role in [roles.ENTREPRENEUR,roles.ADMIN]:
+            pass
+        else:
+            query = query.filter(is_active = True).filter(expiry_date__gt=timezone.now())
+        return query.order_by('created_date')
 
     def get_serializer_class(self):
         if self.action in ['create','update','partial_update']:
