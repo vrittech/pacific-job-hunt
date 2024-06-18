@@ -34,8 +34,12 @@ class JobSeekerHaveJobsViewSets(viewsets.ModelViewSet):
         user = self.request.user
         if user.role == roles.JOBSEEKER:
             return queryset.filter(user = user)
-        else:
+        elif user.role in [roles.ENTREPRENEUR]:
+            return queryset.filter(job__company__owner = user)
+        elif user in [roles.ADMIN]:
             return queryset
+        else:
+            return []
 
     def get_serializer_class(self):
         if self.action in ['create','update','partial_update']:
