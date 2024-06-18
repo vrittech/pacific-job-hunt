@@ -1,6 +1,35 @@
 from rest_framework import serializers
 from ..models import CustomUser
 from jobseeker.models import ProfessionalInformation,Profession
+from socialmedia.models import SocialMedia,MySocialMedia
+from education.models import Education
+from workexperience.models import WorkExperience
+
+
+class EducationSerializers(serializers.ModelSerializer):
+      class Meta:
+        ref_name = "EducationJobseekers"
+        model = Education
+        fields = '__all__'
+
+class WorkExperienceSerializers(serializers.ModelSerializer):
+      class Meta:
+        ref_name = "WorkExperienceJobseekers"
+        model = WorkExperience
+        fields = '__all__'
+
+class SocialMediaSerializers(serializers.ModelSerializer):
+      class Meta:
+        ref_name = "SocialMediaSerializers"
+        model = SocialMedia
+        fields = ['name'] 
+
+class MySocialMediaSerializers(serializers.ModelSerializer):
+      social_media = SocialMediaSerializers()
+      class Meta:
+        ref_name = "SocialMediaSerializers"
+        model = MySocialMedia
+        fields = ['url','social_media'] 
 
 class ProfessionSerializers(serializers.ModelSerializer):
       class Meta:
@@ -17,9 +46,12 @@ class ProfessionalInformationSerializers(serializers.ModelSerializer):
 class JobseekersDetailSerializers(serializers.ModelSerializer):
     professional_information  = ProfessionalInformationSerializers()
     applied_jobs = serializers.SerializerMethodField()
+    social_media = MySocialMediaSerializers(many = True)
+    educations = EducationSerializers(many = True)
+    work_experience = WorkExperienceSerializers(many = True)
     class Meta:
         model = CustomUser
-        fields = ['id','email','first_name','username','created_date','applied_jobs','professional_information'] 
+        fields = ['id','email','first_name','username','created_date','applied_jobs','professional_information','social_media','educations','work_experience'] 
 
     def get_applied_jobs(self,obj):
         return 12

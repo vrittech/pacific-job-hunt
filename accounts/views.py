@@ -162,7 +162,7 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
     
     @action(detail=True, methods=['get'], name="JobseekersDetail", url_path="jobseekers-detail")
     def JobseekersDetail(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
+        return super().retrieve(request, *args, **kwargs)
     
     @action(detail=True, methods=['get'], name="EmployerDetail", url_path="employer-detail")
     def EmployerDetail(self, request, *args, **kwargs):
@@ -235,8 +235,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         # Return the custom response
         return Response(response_data)
-
-    
+        
 class PermissionViewSet(viewsets.ModelViewSet):
     queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
