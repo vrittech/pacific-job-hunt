@@ -7,7 +7,6 @@ from order.models import Order
 email_from = settings.EMAIL_HOST_USER
 
 def sendMail(notification):
-    print("order_delivered")
     if notification.get("notification_type") == "order_delivered":
         order_id = Order.objects.get(id = notification.get('object_id')).id
         html_message = render_to_string('confirm_order.html').format(order_id = order_id)
