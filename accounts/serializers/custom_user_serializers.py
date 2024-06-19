@@ -75,13 +75,14 @@ class CustomUserSerializer(serializers.ModelSerializer):
         action = self.context['view'].action     
 
         if action in ['partial_update','update']:
-            if self.instance.old_password_change_case == True:
-                old_password = request.data.get('old_password')
-                if old_password is not None:      
-                    instance = self.instance
-                    if not instance.check_password(old_password):
-                        raise serializers.ValidationError("curent password does not match")
-            attrs['old_password_change_case'] = True
+            old_password = request.data.get('old_password')
+            if old_password is not None:      
+                instance = self.instance
+                if not instance.check_password(old_password):
+                    raise serializers.ValidationError("curent password does not match")
+            else:
+                if request.data.get('password'):
+                    raise serializers.ValidationError("Please provide old_password")
         
         # Ensure the email field is not changed
         if self.instance and 'email' in attrs and self.instance.email != attrs['email']:

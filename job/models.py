@@ -56,3 +56,7 @@ class Jobs(models.Model):
     def __str__(self) -> str:
         return str(self.company.company_name)+"-"+str(self.title)
     
+    @property
+    def number_of_applicant(self):
+        return self.job_seekers.all().count()
+    

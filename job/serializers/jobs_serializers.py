@@ -59,9 +59,13 @@ class JobListAdminSerializer(serializers.ModelSerializer):
     company = Company_PublicSerializer(read_only = True)
     category = JobCategory_PublicSerializer(read_only = True)
     position = Profession_PublicSerializer(read_only = True)
+    number_of_applicant = serializers.SerializerMethodField()
     class Meta:
         model = Jobs
         fields = '__all__'
+        
+    def get_number_of_applicant(self,obj):
+        return obj.number_of_applicant
 
 class JobRetrieveAdminSerializer(serializers.ModelSerializer):
     company = Company_PublicSerializer(read_only = True)
