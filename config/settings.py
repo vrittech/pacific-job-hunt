@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'jobapply',
     'resumes',
     'debug_toolbar',
-    'notification',
+    # 'notification',
 ]
 
 # ASGI_APPLICATION = 'config.asgi.application'
