@@ -89,10 +89,10 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
         elif self.request.method in ['JobseekersList','JobseekersDetail']:
             if user.role in [roles.ADMIN,roles.SUPER_ADMIN,roles.ENTREPRENEUR]:
                 print("JobseekersDetail")
-                return queryset.filter(role = roles.JOBSEEKER)
+                query = queryset.filter(role = roles.JOBSEEKER)
         elif self.request.method in ['EmployerList','EmployerDetail']:
             if user.role in [roles.ADMIN,roles.SUPER_ADMIN,roles.ENTREPRENEUR]:
-                return queryset.filter(role = roles.ENTREPRENEUR)
+                query = queryset.filter(role = roles.ENTREPRENEUR)
         elif user.role == roles.SUPER_ADMIN: 
             query = queryset       
         elif user.role == roles.ADMIN: 
