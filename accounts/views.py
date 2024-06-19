@@ -89,7 +89,7 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
             if self.request.method in ['JobseekersList','JobseekersDetail']:
                 return queryset.filter(role = roles.JOBSEEKER)
             elif self.request.method in ['EmployerList','EmployerDetail']:
-                return queryset.filter(role = roles.ENTREPRENEUR)
+                return queryset.filter(Q(role = roles.JOBSEEKER) | Q(role = roles.ENTREPRENEUR))
             query = queryset       
         elif user.role == roles.ADMIN: 
             query = queryset.filter(is_active = True)
