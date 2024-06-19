@@ -442,6 +442,15 @@ def createGoogleAccount(idinfo):
     email = idinfo.get('email')
     first_name = idinfo.get('name')
     last_name = idinfo.get('family_name')
+
+    try:
+        full_name = first_name.split(' ')
+    except:
+        full_name = [first_name,last_name]
+    
+    first_name = full_name[0]
+    last_name = full_name[1]
+    
     username = email.split('@')[0]
     image = idinfo.get('picture')
     user = CustomUser.objects.filter(Q(email = email) | Q(username = username))

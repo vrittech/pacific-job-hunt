@@ -2,7 +2,6 @@ from django.urls import path
 from .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordToken,ContactmeView,EmailChangeGetOtpView,EmailResetView,CompanyEmailChangeGetOtpView,CompanyEmailResetView
 
 
-
 urlpatterns = [
     path('get-otp/', EmailCheckView.as_view()),
     path('get-otp-email-change/', EmailChangeGetOtpView.as_view()),
