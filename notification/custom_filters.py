@@ -7,7 +7,7 @@ class CustomFilter(django_filters.FilterSet):
 
     class Meta:
         model = Notification
-        fields = ['notification_type','is_read']
+        fields = ['notification_type']
 
     def filter_notification_type(self, queryset,name, values):
         return queryset.filter(notification_type__in=self.request.GET.getlist('notification_type'))

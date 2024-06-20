@@ -25,8 +25,8 @@ from accounts.models import CustomUser
 from .handle_notification import NotificationHandler
 
 from rest_framework.generics import views
-from .seriaizers.push_notification_serializer  import PushNotificationSerializers,PushNotificationSerializers_without_id
-from products.models import Product
+from .seriaizers.push_notification_serializer  import PushNotificationSerializers_without_id#PushNotificationSerializers
+# from products.models import Product
 
 
 # Create your views here.
@@ -35,7 +35,7 @@ class NotificationViewSet(viewsets.ModelViewSet):
     queryset = Notification.objects.all().order_by("-created_date")
     serializer_class = NotificationReadSerializer
     filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
-    filterset_fields = ['notification_type','is_read']
+    filterset_fields = ['notification_type']
     filterset_class = CustomFilter
     search_fields = ['notification_type']
 
@@ -65,16 +65,16 @@ class NotificationViewSet(viewsets.ModelViewSet):
     def notificationCount(self, request):
         notification_obj = self.get_queryset()
         data  = {
-            'unread_notification':notification_obj.filter(is_read = False).count(),
-            'read_notification':notification_obj.filter(is_read = True).count(),
-            'total_notification':notification_obj.count()
+            'unread_notification':notification_obj.all().count(),
+            'read_notification':notification_obj.all().count(),
+            'total_notification':notification_obj.all().count()
         }
         print(data)
         return Response({"message":data}, status=status.HTTP_201_CREATED)
     
     @action(detail=False, methods=['get'], name="allReadNotification", url_path="mark-as-all-read")
     def allReadNotification(self, request):
-        notification_obj = self.get_queryset().filter(is_read = False).update(is_read = True)
+        #notification_obj = self.get_queryset().filter(is_read = False).update(is_read = True)
         
         return Response({"message":"mark as all read completed"}, status=status.HTTP_201_CREATED)
     

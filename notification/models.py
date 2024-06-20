@@ -22,9 +22,8 @@ class Notification(models.Model):
     url = models.CharField(max_length=1000,null=True)
 
     to_notification = models.ManyToManyField(CustomUser,related_name="notification")
-    is_read = models.BooleanField(default=False)
 
     created_date = models.DateTimeField(auto_now_add=True)  
     updated_date = models.DateTimeField(auto_now=True)
-    file = models.FileField(upload_to="notification/files",null=True)
+
 
