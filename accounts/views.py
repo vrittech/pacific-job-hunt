@@ -82,15 +82,13 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         queryset =  CustomUser.objects.all()
-        
+
         if not user.is_authenticated:
             query = CustomUser.objects.none()
-
-        elif self.request.method in ['JobseekersList','JobseekersDetail']:
+        elif self.action in ['JobseekersList','JobseekersDetail']:
             if user.role in [roles.ADMIN,roles.SUPER_ADMIN,roles.ENTREPRENEUR]:
-                print("JobseekersDetail again")
                 query = queryset.filter(role = roles.JOBSEEKER)
-        elif self.request.method in ['EmployerList','EmployerDetail']:
+        elif self.action in ['EmployerList','EmployerDetail']:
             if user.role in [roles.ADMIN,roles.SUPER_ADMIN,roles.ENTREPRENEUR]:
                 query = queryset.filter(role = roles.ENTREPRENEUR)
         elif user.role == roles.SUPER_ADMIN: 
@@ -99,6 +97,7 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
             query = queryset.filter(is_active = True)
         else:
             query = queryset.filter(id=user.id,is_active = True)
+            
         return query.order_by("-created_date")
     
     # @method_decorator(cache_page(cache_time,key_prefix="CustomUser"))

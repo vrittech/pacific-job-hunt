@@ -9,6 +9,11 @@ from jobbookmark.models import JobsBookmark
 from ..utilities.job_filter import JobFilter
 from django.utils import timezone
 
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+cache_time = 300 # 300 is 5 minute
+
 class JobViewSets(viewsets.ModelViewSet):
     serializer_class = JobListPublicSerializer
     permission_classes = [JobPermission]
@@ -54,6 +59,11 @@ class JobViewSets(viewsets.ModelViewSet):
                 return JobRetrievePublicSerializer
             
         return super().get_serializer_class()
+    
+    # @method_decorator(cache_page(cache_time,key_prefix="Job"))
+    def list(self, request, *args, **kwargs):
+        print("\n **************** this is job ")
+        return super().list(request, *args, **kwargs)
     
  
     @action(detail=True, methods=['get'], name="SavedUnsavedJobs", url_path="job-save-unsave")
