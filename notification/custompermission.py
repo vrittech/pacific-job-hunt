@@ -5,7 +5,7 @@ def IsAuthenticated(request):
     return bool(request.user and request.user.is_authenticated)
 
 def AdminLevelPermission(request):
-    return IsAuthenticated(request) and request.user.role in [roles.ADMIN, roles.SYSTEM_ADMIN]
+    return IsAuthenticated(request) and request.user.role in [roles.ADMIN, roles.SUPER_ADMIN]
 
 def is_account_owner(request,view):
     # Check if the user owns the account being accessed

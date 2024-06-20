@@ -39,7 +39,7 @@ class NotificationViewSet(viewsets.ModelViewSet):
     filterset_class = CustomFilter
     search_fields = ['notification_type']
 
-    authentication_classes = [JWTAuthentication]
+    # authentication_classes = [JWTAuthentication]
     permission_classes = [NotificationPermission]
     
     pagination_class = PageNumberPagination

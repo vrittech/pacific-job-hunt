@@ -1,10 +1,14 @@
 from django.contrib import admin
-from .models import Notification
+from .models import Notification,UserHaveNotification
 
 # Register your models here.
 
-# admin.site.register(Notification)
+class UserHaveNotificationInline(admin.TabularInline):
+    model = UserHaveNotification
 
 @admin.register(Notification)
 class NotificationAdmin(admin.ModelAdmin):
-    list_display=['notification_message','id']
+    inlines = [UserHaveNotificationInline]
+
+    list_display = ['id','notification_message','created_date']
+

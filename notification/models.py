@@ -21,9 +21,14 @@ class Notification(models.Model):
     path = models.CharField(max_length=1000,null=True)
     url = models.CharField(max_length=1000,null=True)
 
-    to_notification = models.ManyToManyField(CustomUser,related_name="notification")
+    to_notification = models.ManyToManyField(CustomUser,through="UserHaveNotification")
 
     created_date = models.DateTimeField(auto_now_add=True)  
     updated_date = models.DateTimeField(auto_now=True)
 
+
+class UserHaveNotification(models.Model):
+    to_notification = models.ForeignKey(CustomUser,related_name="user_have_notifications",on_delete = models.CASCADE)
+    notification = models.ForeignKey(Notification,related_name="user_have_notifications",on_delete = models.CASCADE)
+    is_read = models.BooleanField(default = False)
 
