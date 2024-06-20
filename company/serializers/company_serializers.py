@@ -2,6 +2,7 @@ from rest_framework import serializers
 from ..models import Company,CompanyType
 import ast
 from accounts.models import CustomUser
+from socialmedia.models import CompanySocialMedia,SocialMedia
 
 def str_to_list(data,value_to_convert):
     mutable_data = data.dict()
@@ -20,11 +21,23 @@ class CompanyTypePublicSerializers_CompanyReadSerializers(serializers.ModelSeria
         model = CompanyType
         fields = '__all__'
 
+class SocialMediaPublicSerializers_CompanyReadSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = SocialMedia
+        fields = '__all__'
+
+class CompanySocialMediaPublicSerializers_CompanyReadSerializers(serializers.ModelSerializer):
+    social_media = SocialMediaPublicSerializers_CompanyReadSerializers( )
+    class Meta:
+        model = CompanySocialMedia
+        fields = '__all__'
+
 class CompanyReadSerializers(serializers.ModelSerializer):
     type = CompanyTypePublicSerializers_CompanyReadSerializers(many = True)
+    company_social_media = CompanySocialMediaPublicSerializers_CompanyReadSerializers(many = True)
     class Meta:
         model = Company
-        fields = ['id','company_name','company_slug','type','mobile_number','email','company_logo','company_banner','about','company_size','website','is_verified','owner','location','created_date','total_active_job']
+        fields = ['id','company_name','company_slug','type','mobile_number','email','company_logo','company_banner','about','company_size','website','is_verified','owner','location','created_date','total_active_job','company_social_media']
 
 class CompanySerializers(serializers.ModelSerializer):
 

@@ -44,6 +44,19 @@ class ProfessionalInformationSerializers(serializers.ModelSerializer):
         model = ProfessionalInformation
         fields = ['experience','profession','cv'] 
 
+class JobsApplySerializers__JobseekersDetailSerializers(serializers.ModelSerializer):
+      cv = serializers.SerializerMethodField()
+      class Meta:
+        model = JobsApply
+        fields = ['status','cv','is_saved_applicant','cover_letter_file','cover_letter_str']
+      
+      def get_cv(self,obj):
+            request = self.context.get('request')
+            if obj.cv:
+              cv_url = obj.cv.cv.url
+              full_cv_url = request.build_absolute_uri(cv_url)
+              return full_cv_url
+
 
 class JobseekersDetailSerializers(serializers.ModelSerializer):
     professional_information  = ProfessionalInformationSerializers()
@@ -51,29 +64,25 @@ class JobseekersDetailSerializers(serializers.ModelSerializer):
     social_media = MySocialMediaSerializers(many = True)
     educations = EducationSerializers(many = True)
     work_experience = WorkExperienceSerializers(many = True)
-    applied_cv = serializers.SerializerMethodField()
+    job_detail = serializers.SerializerMethodField()
     class Meta:
         model = CustomUser
-        fields = ['id','email','first_name','username','created_date','applied_jobs','professional_information','social_media','educations','work_experience','applied_cv'] 
+        fields = ['image','id','email','first_name','last_name','username','created_date','applied_jobs','professional_information','social_media','educations','work_experience','job_detail'] 
 
     def get_applied_jobs(self,obj):
         return 12
     
-    def get_applied_cv(self,obj):
+    def get_job_detail(self,obj):
         request = self.context['request']
+        kwargs = {
+            'request':request,
+        }
         job_applied_id = request.GET.get('applied_id')
         if job_applied_id:
             jobapply_obj =JobsApply.objects.filter(id = job_applied_id)
-        
             if jobapply_obj.exists():
-                if jobapply_obj.first().cv:
-                    return request.build_absolute_uri(jobapply_obj.first().cv.cv.url)
-                
-        cv_url = obj.professional_information.cv.url
-        full_cv_url = request.build_absolute_uri(cv_url)
-        return full_cv_url
-
-        
+                job_applied_detail = JobsApplySerializers__JobseekersDetailSerializers(jobapply_obj.first(),many = False,context={'request': request})
+                return job_applied_detail.data
         
     
 
