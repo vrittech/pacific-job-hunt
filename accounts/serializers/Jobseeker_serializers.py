@@ -51,16 +51,28 @@ class JobseekersDetailSerializers(serializers.ModelSerializer):
     social_media = MySocialMediaSerializers(many = True)
     educations = EducationSerializers(many = True)
     work_experience = WorkExperienceSerializers(many = True)
-    job_detail = serializers.SerializerMethodField()
+    applied_cv = serializers.SerializerMethodField()
     class Meta:
         model = CustomUser
-        fields = ['id','email','first_name','username','created_date','applied_jobs','professional_information','social_media','educations','work_experience','job_detail'] 
+        fields = ['id','email','first_name','username','created_date','applied_jobs','professional_information','social_media','educations','work_experience','applied_cv'] 
 
     def get_applied_jobs(self,obj):
         return 12
     
-    def get_job_detail(self,obj):
-        return "Job"
+    def get_applied_cv(self,obj):
+        request = self.context['request']
+        job_applied_id = request.GET.get('applied_id')
+        if job_applied_id:
+            jobapply_obj =JobsApply.objects.filter(id = job_applied_id)
+        
+            if jobapply_obj.exists():
+                if jobapply_obj.first().cv:
+                    return request.build_absolute_uri(jobapply_obj.first().cv.cv.url)
+                
+        cv_url = obj.professional_information.cv.url
+        full_cv_url = request.build_absolute_uri(cv_url)
+        return full_cv_url
+
         
         
     

@@ -12,7 +12,7 @@ class JobsApply(models.Model):
     phone_number = models.CharField(max_length = 200)
     email = models.CharField(max_length = 200)
     location = models.CharField(max_length = 200,null = True,blank =  True)
-    cv = models.ForeignKey(Resumes,related_name="job_apply",on_delete=models.CASCADE)
+    cv = models.ForeignKey(Resumes,related_name="job_apply",on_delete=models.CASCADE,null = True)
     cover_letter_file = models.FileField(upload_to='users/jobseeker/coverletter',null=True,blank=True)
     cover_letter_str = models.TextField(null= True,blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
