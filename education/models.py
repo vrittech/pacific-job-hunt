@@ -9,3 +9,4 @@ class Education(models.Model):
     education_level = models.CharField(max_length = 1000)
     joined_date = models.DateField(null = True)
     end_date  = models.DateField(null = True)
+    is_currently = models.BooleanField(default = False)

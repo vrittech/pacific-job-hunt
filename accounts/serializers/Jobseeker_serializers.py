@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from ..models import CustomUser
-from jobseeker.models import ProfessionalInformation,Profession
+from jobseeker.models import ProfessionalInformation,Profession,JobSeekerHaveSkills
 from socialmedia.models import SocialMedia,MySocialMedia
 from education.models import Education
 from workexperience.models import WorkExperience
@@ -44,11 +44,20 @@ class ProfessionalInformationSerializers(serializers.ModelSerializer):
         model = ProfessionalInformation
         fields = ['experience','profession','cv'] 
 
+class JobSeekerHaveSkillsSerializers_JobseekersDetailSerializers(serializers.ModelSerializer):
+      skill = serializers.SerializerMethodField()
+      class Meta:
+        model = JobSeekerHaveSkills
+        fields = ['skill','experience']
+
+      def get_skill(self,obj):
+          return obj.id
+
 class JobsApplySerializers__JobseekersDetailSerializers(serializers.ModelSerializer):
       cv = serializers.SerializerMethodField()
       class Meta:
         model = JobsApply
-        fields = ['status','cv','is_saved_applicant','cover_letter_file','cover_letter_str']
+        fields = ['status','cv','is_saved_applicant','cover_letter_file','cover_letter_str','location','phone_number']
       
       def get_cv(self,obj):
             request = self.context.get('request')
@@ -63,11 +72,12 @@ class JobseekersDetailSerializers(serializers.ModelSerializer):
     applied_jobs = serializers.SerializerMethodField()
     social_media = MySocialMediaSerializers(many = True)
     educations = EducationSerializers(many = True)
+    jobseeker_skills = JobSeekerHaveSkillsSerializers_JobseekersDetailSerializers(many = True)
     work_experience = WorkExperienceSerializers(many = True)
     job_detail = serializers.SerializerMethodField()
     class Meta:
         model = CustomUser
-        fields = ['image','id','email','first_name','last_name','username','created_date','applied_jobs','professional_information','social_media','educations','work_experience','job_detail'] 
+        fields = ['image','id','email','first_name','last_name','username','created_date','applied_jobs','professional_information','social_media','educations','work_experience','job_detail','jobseeker_skills','gender'] 
 
     def get_applied_jobs(self,obj):
         return 12
