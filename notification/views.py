@@ -46,9 +46,10 @@ class NotificationViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if user.is_authenticated:
             query = Notification.objects.filter(to_notification__in = [user])  
+            user_have_notifications_obj = list(UserHaveNotification.objects.all().filter(is_active = True).values_list('notification_id',flat = True))
         else:
             query = Notification.objects.none()    
-        return query.order_by("-created_date")
+        return query.filter().order_by("-created_date")
     
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
@@ -71,14 +72,16 @@ class NotificationViewSet(viewsets.ModelViewSet):
         print(data)
         return Response({"message":data}, status=status.HTTP_201_CREATED)
     
-    @action(detail=False, methods=['get'], name="allReadNotification", url_path="mark-as-all-read")
+    @action(detail=False, methods=['post'], name="allReadNotification", url_path="mark-as-all-read")
     def allReadNotification(self, request):
         marks_notification_ids = request.data.get('marks_notification_ids')
+        print(type(marks_notification_ids),marks_notification_ids," mar as read")
         notification_obj = self.get_queryset()
         
         if marks_notification_ids:
             # notification_obj = notification_obj.filter(id__in = marks_notification_ids)
             notification_obj = UserHaveNotification.objects.filter(notification_id__in = marks_notification_ids,to_notification__in = [self.request.user])
+            print(notification_obj," notification_obj")
         else:
             notification_obj  = UserHaveNotification.objects.filter(notification_id__in = list(notification_obj.values_list('id',flat=True)),to_notification__in = [self.request.user])
 
@@ -89,7 +92,7 @@ class NotificationViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'], name="allClearNotification", url_path="mark-as-clear")
     def allClearNotification(self, request):
-        marks_notification_ids = request.data.get('clear_notification_ids')
+        marks_notification_ids = request.data.get('marks_notification_ids')
         notification_obj = self.get_queryset()
         
         if marks_notification_ids:
