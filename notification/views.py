@@ -23,6 +23,7 @@ from .handle_notification import NotificationHandler
 from rest_framework.generics import views
 from .seriaizers.push_notification_serializer  import PushNotificationSerializers_without_id#PushNotificationSerializers
 # from products.models import Product
+from rest_framework.permissions import IsAuthenticated
 
 
 # Create your views here.
@@ -35,8 +36,9 @@ class NotificationViewSet(viewsets.ModelViewSet):
     filterset_class = CustomFilter
     search_fields = ['notification_type']
 
+
     # authentication_classes = [JWTAuthentication]
-    permission_classes = [NotificationPermission]
+    permission_classes = [NotificationPermission,IsAuthenticated]
     
     pagination_class = PageNumberPagination
 
