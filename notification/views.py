@@ -73,14 +73,15 @@ class NotificationViewSet(viewsets.ModelViewSet):
     def allReadNotification(self, request):
         marks_notification_ids = request.data.get('marks_notification_ids')
         notification_obj = self.get_queryset()
-        if len(marks_notification_ids)>0:
-            notification_obj = notification_obj.filter(id__in = marks_notification_ids)
+        
+        if marks_notification_ids:
+            # notification_obj = notification_obj.filter(id__in = marks_notification_ids)
+            notification_obj = UserHaveNotification.objects.filter(notification_id__in = marks_notification_ids,to_notification__in = [self.request.user])
         else:
-            pass
+            notification_obj  = UserHaveNotification.objects.filter(notification_id__in = list(notification_obj.values_list('id',flat=True)),to_notification__in = [self.request.user])
 
-        for notif in notification_obj:
-            notif.filter(to_notification__in = [self.request.user]).update(is_read =True)
-            
+        notification_obj.update(is_read = True)
+
         return Response({"message":"mark as all read completed"}, status=status.HTTP_201_CREATED)
     
     def create(self, request, *args, **kwargs):

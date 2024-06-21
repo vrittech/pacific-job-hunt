@@ -16,6 +16,7 @@ class JobFilter(django_filters.FilterSet):
             'company__location': ['icontains'],
             'position': ['exact'],
             'company':['exact'],
+            'id':['exact'],
         }
 
     def filter_by_category(self, queryset, name, value):
