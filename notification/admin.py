@@ -10,5 +10,5 @@ class UserHaveNotificationInline(admin.TabularInline):
 class NotificationAdmin(admin.ModelAdmin):
     inlines = [UserHaveNotificationInline]
 
-    list_display = ['id','notification_message','created_date']
+    list_display = ['notification_message','created_date']
 

@@ -47,7 +47,7 @@ class NotificationViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_authenticated:
-            query = Notification.objects.filter(to_notification__id = user.id)  
+            query = Notification.objects.filter(to_notification__in = [user])  
         else:
             query = Notification.objects.none()    
         return query.order_by("-created_date")

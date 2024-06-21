@@ -14,10 +14,10 @@ class FromUSerNotificationSerializers(serializers.ModelSerializer):
     
 
 class NotificationReadSerializer(serializers.ModelSerializer):  
-    from_notification = FromUSerNotificationSerializers()      
+    # from_notification = FromUSerNotificationSerializers()      
     class Meta:
         model = Notification
-        fields = '__all__'
+        exclude = ['to_notification','updated_date','message_description','object_id','content_type','from_notification']
     
     # def to_representation(self, instance):
     #     representation = super().to_representation(instance)
