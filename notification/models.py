@@ -31,4 +31,5 @@ class UserHaveNotification(models.Model):
     to_notification = models.ForeignKey(CustomUser,related_name="user_have_notifications",on_delete = models.CASCADE)
     notification = models.ForeignKey(Notification,related_name="user_have_notifications",on_delete = models.CASCADE)
     is_read = models.BooleanField(default = False)
+    is_active = models.BooleanField(default = True)
 

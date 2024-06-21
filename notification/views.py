@@ -86,6 +86,23 @@ class NotificationViewSet(viewsets.ModelViewSet):
 
         return Response({"message":"mark as all read completed"}, status=status.HTTP_201_CREATED)
     
+
+    @action(detail=False, methods=['post'], name="allClearNotification", url_path="mark-as-clear")
+    def allClearNotification(self, request):
+        marks_notification_ids = request.data.get('clear_notification_ids')
+        notification_obj = self.get_queryset()
+        
+        if marks_notification_ids:
+            # notification_obj = notification_obj.filter(id__in = marks_notification_ids)
+            notification_obj = UserHaveNotification.objects.filter(notification_id__in = marks_notification_ids,to_notification__in = [self.request.user])
+        else:
+            notification_obj  = UserHaveNotification.objects.filter(notification_id__in = list(notification_obj.values_list('id',flat=True)),to_notification__in = [self.request.user])
+
+        notification_obj.update(is_active = False)
+
+        return Response({"message":"mark as clear notification"}, status=status.HTTP_201_CREATED)
+    
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
