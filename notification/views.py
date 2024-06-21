@@ -1,17 +1,13 @@
-from django.shortcuts import render
+
 from rest_framework import viewsets
-from . models import Notification
+from . models import Notification,UserHaveNotification
 from rest_framework import status
 from rest_framework.filters import SearchFilter,OrderingFilter
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticated
-from .pagination import MyLimitOffsetPagination,PageNumberPagination
+from .pagination import PageNumberPagination
 from rest_framework.response import Response
 from .serializer import NotificationWriteSerializer,NotificationReadSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from .custom_filters import CustomFilter
-from accounts import roles
-from django.db.models import Q
 from .custompermission import NotificationPermission
 from django.http import  HttpResponse
 from datetime import date
@@ -63,19 +59,28 @@ class NotificationViewSet(viewsets.ModelViewSet):
     
     @action(detail=False, methods=['get'], name="notificationCount", url_path="notification-count")
     def notificationCount(self, request):
-        notification_obj = self.get_queryset()
+        notification_obj = list(self.get_queryset().values_list('id',flat=True))
+        user_have_notifications = UserHaveNotification.objects.all().filter(notification_id__in = notification_obj).filter(to_notification__in = [self.request.user])
         data  = {
-            'unread_notification':notification_obj.all().count(),
-            'read_notification':notification_obj.all().count(),
-            'total_notification':notification_obj.all().count()
+            'unread_notification':user_have_notifications.filter(is_read = False).count(),
+            'read_notification':user_have_notifications.filter(is_read = True).count(),
+            'total_notification':user_have_notifications.count()
         }
         print(data)
         return Response({"message":data}, status=status.HTTP_201_CREATED)
     
     @action(detail=False, methods=['get'], name="allReadNotification", url_path="mark-as-all-read")
     def allReadNotification(self, request):
-        #notification_obj = self.get_queryset().filter(is_read = False).update(is_read = True)
-        
+        marks_notification_ids = request.data.get('marks_notification_ids')
+        notification_obj = self.get_queryset()
+        if len(marks_notification_ids)>0:
+            notification_obj = notification_obj.filter(id__in = marks_notification_ids)
+        else:
+            pass
+
+        for notif in notification_obj:
+            notif.filter(to_notification__in = [self.request.user]).update(is_read =True)
+            
         return Response({"message":"mark as all read completed"}, status=status.HTTP_201_CREATED)
     
     def create(self, request, *args, **kwargs):
