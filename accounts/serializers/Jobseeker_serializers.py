@@ -42,7 +42,7 @@ class ProfessionalInformationSerializers(serializers.ModelSerializer):
       profession = ProfessionSerializers()
       class Meta:
         model = ProfessionalInformation
-        fields = ['experience','profession','cv'] 
+        fields = ['experience','profession','cv','about'] 
 
 class JobSeekerHaveSkillsSerializers_JobseekersDetailSerializers(serializers.ModelSerializer):
       skill = serializers.SerializerMethodField()
@@ -51,7 +51,7 @@ class JobSeekerHaveSkillsSerializers_JobseekersDetailSerializers(serializers.Mod
         fields = ['skill','experience']
 
       def get_skill(self,obj):
-          return obj.id
+          return obj.skill.name
 
 class JobsApplySerializers__JobseekersDetailSerializers(serializers.ModelSerializer):
       cv = serializers.SerializerMethodField()
