@@ -5,8 +5,8 @@ from .views import EmailCheckView, CustomPasswordResetView , VerifyUserPasswordT
 urlpatterns = [
     path('get-otp/', EmailCheckView.as_view()),
     path('get-otp-email-change/', EmailChangeGetOtpView.as_view()),
-    path('get-otp-company-email-change/', CompanyEmailChangeGetOtpView.as_view()),
     path('email-reset/', EmailResetView.as_view(), name="reset-password"),
+    path('get-otp-company-email-change/', CompanyEmailChangeGetOtpView.as_view()),
     path('company-email-reset/', CompanyEmailResetView.as_view(), name="company-email-reset"),
     path('password-reset/', CustomPasswordResetView.as_view(), name="reset-password"),
     path('verify-token/', VerifyUserPasswordToken.as_view(), name="VerifyUserPasswordToken"),
