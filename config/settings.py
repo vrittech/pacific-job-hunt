@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'resumes',
     'debug_toolbar',
     'notification',
+    'jobutils',
 ]
 
 # ASGI_APPLICATION = 'config.asgi.application'
