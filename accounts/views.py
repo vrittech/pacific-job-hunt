@@ -54,7 +54,7 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
     # permission_classes = [Account]
     serializer_class = CustomUserReadSerializer
     filter_backends = [SearchFilter,DjangoFilterBackend,OrderingFilter]
-    search_fields = ['id','email','username','first_name','last_name','phone','department_name']
+    search_fields = ['id','email','username','first_name','last_name','phone']
     ordering_fields = ['username','id']
     filterset_fields = {
         'email': ['exact', 'icontains'],
@@ -67,6 +67,7 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
 
     # authentication_classes = [JWTAuthentication]
     permission_classes = [AccountPermission]
+    pagination_class = PageNumberPagination
     
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
