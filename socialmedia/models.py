@@ -12,7 +12,6 @@ class MySocialMedia(models.Model):
     url = models.URLField()
     social_media = models.ForeignKey(SocialMedia,related_name="jobseeker_socialmedia",on_delete=models.CASCADE)
 
-
 class CompanySocialMedia(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE,related_name="company_social_media")
     url = models.URLField()
