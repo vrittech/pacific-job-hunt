@@ -21,7 +21,7 @@ def AdminPermission(request):
 class AccountPermission(BasePermission):
     def has_permission(self, request, view):
         method_name = view.action
-        print(method_name)
+        print(method_name," method name",request.user.role)
         if method_name == 'list':
             return True
         elif method_name == 'create':

@@ -171,9 +171,12 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'], name="UserDelete", url_path="user-delete")
     def UserDelete(self, request, *args, **kwargs):
         users_ids = request.data.get('users_ids')
-        users_obj = CustomUser.objects.filter(id__in = users_ids)
-        users_obj.delete()
-        return Response({'message':'user deleted successfully !'})
+        if users_ids:
+            users_obj = CustomUser.objects.filter(id__in = users_ids)
+            users_obj.delete()
+            return Response({'message':'user deleted successfully !'})
+        else:
+            return Response({'message':'user delete failed !'},status=status.HTTP_400_BAD_REQUEST)
 
 
 
