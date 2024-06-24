@@ -77,7 +77,7 @@ class JobseekersDetailSerializers(serializers.ModelSerializer):
     job_detail = serializers.SerializerMethodField()
     class Meta:
         model = CustomUser
-        fields = ['image','id','email','first_name','last_name','username','created_date','applied_jobs','professional_information','social_media','educations','work_experience','job_detail','jobseeker_skills','gender'] 
+        fields = ['image','id','email','first_name','last_name','username','created_date','applied_jobs','professional_information','social_media','educations','work_experience','job_detail','jobseeker_skills','gender','is_active'] 
 
     def get_applied_jobs(self,obj):
         return 12

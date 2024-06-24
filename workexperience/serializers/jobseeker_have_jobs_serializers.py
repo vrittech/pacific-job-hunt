@@ -31,6 +31,17 @@ class JobSeekers_PublicSerializers(serializers.ModelSerializer):
         fields = ['id','first_name','email','last_name','professional_information','jobseeker_skills']
 
 class Job_PublicSerializers(serializers.ModelSerializer):
+    level = serializers.SerializerMethodField()
+
+    def get_level(self,obj):
+        return obj.level.name
+    
+    def get_level(self,obj):
+        return obj.location.name
+
+    def get_level(self,obj):
+        return obj.timing.name
+    
     class Meta:
         model = Jobs
         fields = ['id','title','position','level']

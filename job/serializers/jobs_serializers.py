@@ -38,6 +38,20 @@ class JobListPublicSerializer(serializers.ModelSerializer):
     position = Profession_PublicSerializer(read_only = True)
     is_apply = serializers.SerializerMethodField()
     is_save = serializers.SerializerMethodField()
+
+    level = serializers.SerializerMethodField()
+    location = serializers.SerializerMethodField()
+    timing = serializers.SerializerMethodField()
+
+    def get_level(self,obj):
+        return obj.level.name
+    
+    def get_level(self,obj):
+        return obj.location.name
+
+    def get_level(self,obj):
+        return obj.timing.name
+    
     class Meta:
         model = Jobs
         fields = '__all__'
@@ -60,17 +74,44 @@ class JobListAdminSerializer(serializers.ModelSerializer):
     category = JobCategory_PublicSerializer(read_only = True)
     position = Profession_PublicSerializer(read_only = True)
     number_of_applicant = serializers.SerializerMethodField()
+    level = serializers.SerializerMethodField()
+    location = serializers.SerializerMethodField()
+    timing = serializers.SerializerMethodField()
+    
     class Meta:
         model = Jobs
         fields = '__all__'
         
     def get_number_of_applicant(self,obj):
         return obj.number_of_applicant
+    
+    def get_level(self,obj):
+        return obj.level.name
+    
+    def get_level(self,obj):
+        return obj.location.name
 
+    def get_level(self,obj):
+        return obj.timing.name
+    
 class JobRetrieveAdminSerializer(serializers.ModelSerializer):
     company = Company_PublicSerializer(read_only = True)
     category = JobCategory_JobRetrieveAdminSerializer(read_only = True)
     position = Profession_PublicSerializer(read_only = True)
+
+    level = serializers.SerializerMethodField()
+    location = serializers.SerializerMethodField()
+    timing = serializers.SerializerMethodField()
+
+    def get_level(self,obj):
+        return obj.level.name
+    
+    def get_level(self,obj):
+        return obj.location.name
+
+    def get_level(self,obj):
+        return obj.timing.name
+    
     class Meta:
         model = Jobs
         fields = '__all__'
@@ -81,6 +122,20 @@ class JobRetrievePublicSerializer(serializers.ModelSerializer):
     is_apply = serializers.SerializerMethodField()
     is_save = serializers.SerializerMethodField()
     position = Profession_PublicSerializer(read_only = True)
+
+    level = serializers.SerializerMethodField()
+    location = serializers.SerializerMethodField()
+    timing = serializers.SerializerMethodField()
+
+    def get_level(self,obj):
+        return obj.level.name
+    
+    def get_level(self,obj):
+        return obj.location.name
+
+    def get_level(self,obj):
+        return obj.timing.name
+    
     class Meta:
         model = Jobs
         fields = '__all__'

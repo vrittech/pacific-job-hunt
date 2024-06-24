@@ -92,10 +92,8 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
         elif self.action in ['EmployerList','EmployerDetail']:
             if user.role in [roles.ADMIN,roles.SUPER_ADMIN,roles.ENTREPRENEUR]:
                 queryset = queryset.filter(role = roles.ENTREPRENEUR)
-        elif user.role == roles.SUPER_ADMIN: 
-            queryset = queryset       
-        elif user.role == roles.ADMIN: 
-            queryset = queryset.filter(is_active = True)
+        elif user.role in [roles.SUPER_ADMIN,roles.ADMIN]: 
+            queryset = queryset      
         else:
             queryset = queryset.filter(id=user.id,is_active = True)
             
@@ -169,6 +167,14 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'], name="EmployerDetail", url_path="employer-detail")
     def EmployerDetail(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
+    
+    @action(detail=False, methods=['post'], name="UserDelete", url_path="user-delete")
+    def UserDelete(self, request, *args, **kwargs):
+        users_ids = request.data.get('users_ids')
+        users_obj = CustomUser.objects.filter(id__in = users_ids)
+        users_obj.delete()
+        return Response({'message':'user deleted successfully !'})
+
 
 
 class RoleViewSet(APIView):

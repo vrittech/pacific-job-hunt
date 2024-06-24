@@ -37,6 +37,8 @@ class AccountPermission(BasePermission):
             return False
         elif method_name in ['JobseekersList','JobseekersDetail','EmployerList','EmployerDetail']:
             return True
+        elif method_name in ['UserDelete']:
+            return AdminPermission(request)
         else:
             return False
 

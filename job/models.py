@@ -4,6 +4,8 @@ from django.utils.text import slugify
 from company.models import Company
 from professions.models import Profession
 
+from jobutils.models import JobLevel,JobLocation,JobTiming
+
 
 # Create your models here.
 
@@ -32,11 +34,11 @@ class Jobs(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
     title = models.CharField(max_length = 250,null=True,default='')
     position = models.ForeignKey(Profession,related_name="jobs",on_delete=models.PROTECT)
-    level = models.CharField(max_length = 50, choices = (('intern','Intern'),('junior','Junior'),('mid','Mid'),('senior','Senior'),('','')),default = '',null = True)
-    location = models.CharField(max_length = 50, choices = (('on_site','on_site'),('remote','remote'),('hybrid','hybrid'),('','')),default = '',null = True)
+    level = models.ForeignKey(JobLevel, null = True, on_delete = models.SET_NULL)
+    location = models.ForeignKey(JobLocation,null = True,on_delete = models.SET_NULL)
     required_number = models.PositiveIntegerField()
     description = models.TextField()
-    timing = models.CharField(max_length = 20, choices = (('full_time','Full Time'),('part_time','Part Time'),('contract','contract')),default = 'full_time')
+    timing = models.ForeignKey(JobTiming,null=True,on_delete = models.SET_NULL)
     salary_mode = models.CharField(max_length = 20, choices = (('Annually','annually'),('Hourly','hourly'),('Monthly','monthly')),default = 'monthly')
     min_salary = models.IntegerField(null = True)
     max_salary = models.IntegerField(null = True)

@@ -18,6 +18,19 @@ class Company_PublicSerializers(serializers.ModelSerializer):
 class Job_PublicSerializers(serializers.ModelSerializer):
     company = Company_PublicSerializers()
     position = Profession_PublicSerializerJobSaved()
+    level = serializers.SerializerMethodField()
+    location = serializers.SerializerMethodField()
+    timing = serializers.SerializerMethodField()
+
+    def get_level(self,obj):
+        return obj.level.name
+    
+    def get_level(self,obj):
+        return obj.location.name
+
+    def get_level(self,obj):
+        return obj.timing.name
+    
     class Meta:
         model = Jobs
         fields = ['id','title','position','level','location','required_number','company','image','created_date','salary_mode','min_salary','max_salary','timing','expiry_date']
