@@ -53,6 +53,9 @@ class CustomUser(AbstractUser):
             return self.first_name + " " + self.last_name
         except:
             return self.username
+    
+    def is_featured(self):
+        return self.my_companies.all().filter(is_featured = True).exists()
 
     def save(self, *args, **kwargs):
         if not self.is_active:

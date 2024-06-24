@@ -34,4 +34,4 @@ class EmployerDetailSerializers(serializers.ModelSerializer):
     my_companies = CompanySerializers(many = True)
     class Meta:
         model = CustomUser
-        fields = ['id','email','first_name','username','my_companies','is_verified','created_date','is_active'] 
+        fields = ['id','email','first_name','username','my_companies','is_verified','created_date','is_active','is_featured'] 

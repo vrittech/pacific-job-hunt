@@ -6,6 +6,8 @@ from ..serializers.jobseeker_have_jobs_serializers import (
     JobsApplyWriteSerializers
     )
 
+from rest_framework.response import Response
+
 from ..utilities.importbase import *
 from accounts import roles
 from rest_framework.decorators import action
@@ -64,5 +66,21 @@ class JobSeekerHaveJobsViewSets(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'], name="jobSeekers", url_path="get-job-seekers")
     def jobSeekers(self, request, *args, **kwargs):#this response some additional data for admin,admin try to get some detail
         return super().list(request, *args, **kwargs)
+    
+
+    @action(detail=False, methods=['post'], name="JobSeekersBulkStatus", url_path="job-seekers-bulk-status")
+    def JobSeekersBulkStatus(self, request, *args, **kwargs):#this response some additional data for admin,admin try to get some detail
+        job_applys_id = request.data.get('job_applys_id')
+        status = request.data.get('status')
+      
+        if job_applys_id:
+            applier_objs = JobsApply.objects.filter(id__in = job_applys_id,job__company__owner = request.user.id)
+            deleted_count, _ = applier_objs.update(status = status)
+           
+            return Response({'message': f'Successfully  {status} jobseekers'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'message':f'can not {status} jobseekers'},status=status.HTTP_400_BAD_REQUEST)
+
+    
     
     

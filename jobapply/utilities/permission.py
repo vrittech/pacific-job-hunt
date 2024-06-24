@@ -36,7 +36,7 @@ def isOwnerObject(request,object):
 class AdminViewSetsPermission(BasePermission):
     def has_permission(self, request, view):    
         return AdminLevel(request)
-    
+
 class JobSeekersApplySavedJobPermission(BasePermission):
     def has_permission(self, request, view):
         print(view.action, "  methto ")
@@ -53,6 +53,8 @@ class JobSeekersApplySavedJobPermission(BasePermission):
             return CompanyOwnerJob(request,view.get_object())
         elif view.action in ['partial_update']:
             return CompanyOwnerJob(request,view.get_object())
+        elif view.action in ['JobSeekersBulkStatus']:
+            return AdminEntrepreneurLevel(request)
         else:
             return False
 

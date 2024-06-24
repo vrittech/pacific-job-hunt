@@ -33,6 +33,7 @@ class Company(models.Model):
     owner = models.ForeignKey(CustomUser,on_delete = models.PROTECT,related_name="my_companies")
     location = models.CharField(max_length = 950,null  = True)
     created_date = models.DateTimeField(auto_now_add=True)
+    is_featured = models.BooleanField(default = False)
 
     def save(self, *args, **kwargs):
         if not self.company_slug:

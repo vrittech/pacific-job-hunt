@@ -173,8 +173,9 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
         users_ids = request.data.get('users_ids')
         if users_ids:
             users_obj = CustomUser.objects.filter(id__in = users_ids)
-            users_obj.delete()
-            return Response({'message':'user deleted successfully !'})
+            deleted_count, _ = users_obj.delete()
+           
+            return Response({'message': f'Successfully deleted {deleted_count} users.'}, status=status.HTTP_200_OK)
         else:
             return Response({'message':'user delete failed !'},status=status.HTTP_400_BAD_REQUEST)
 
