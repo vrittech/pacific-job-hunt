@@ -14,6 +14,7 @@ class JobCategory(models.Model):
     image = models.ImageField(upload_to='jobs/category/images',blank=True,null=True)
     is_popular = models.BooleanField(default = False)
     slug = models.CharField(max_length = 250,unique = True,blank=True)
+    created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -26,6 +27,7 @@ class JobCategory(models.Model):
 class Skills(models.Model):
     name = models.CharField(max_length = 150,unique = True)
     category = models.ForeignKey(JobCategory,on_delete = models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.name
