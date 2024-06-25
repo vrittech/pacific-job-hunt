@@ -10,3 +10,4 @@ class Education(models.Model):
     joined_date = models.DateField(null = True)
     end_date  = models.DateField(null = True)
     is_currently = models.BooleanField(default = False)
+    created_date = models.DateTimeField(auto_now_add=True)

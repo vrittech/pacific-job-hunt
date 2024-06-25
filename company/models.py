@@ -8,6 +8,7 @@ from django.utils import timezone
 class CompanyType(models.Model):
     type = models.CharField(max_length = 200)
     slug = models.CharField(max_length = 200,blank = True,unique = True)
+    created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.type
