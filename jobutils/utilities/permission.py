@@ -43,6 +43,7 @@ class JobSeekersApplySavedJobPermission(BasePermission):
 
 class JobseekerPermission(BasePermission):
     def has_permission(self, request, view):
+        return True
         if view.action in ["list"]:
             return True
         elif view.action in ['retrieve']:
