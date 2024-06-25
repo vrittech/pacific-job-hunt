@@ -20,14 +20,6 @@ def isOwnerCompany(request,object):
         return True
     return False
 
-# def isCompanyOwner(request):
-#     company = Company.objects.filter(id = request.data.get('company_id'),owner_id = request.user.id)
-#     if not company.exists():
-#         return False
-#     elif request.user.id == order.first().user.id:
-#         return True
-#     return False
-
 class AdminViewSetsPermission(BasePermission):
     def has_permission(self, request, view): 
         if view.action in ["list","retrieve"]:

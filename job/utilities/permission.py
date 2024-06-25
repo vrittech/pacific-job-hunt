@@ -19,10 +19,7 @@ class AdminViewSetsPermission(BasePermission):
             return AdminLevel(request)
     
 def isCompanyOwner(request):
-    print(request.data.get('company'))
-    print(request.user.id)
     company = Company.objects.filter(id = request.data.get('company'),owner_id = request.user.id)
-    print(company, " company permission ")
     if company.exists():
         return True
     return False
