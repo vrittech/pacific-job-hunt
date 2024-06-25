@@ -44,11 +44,16 @@ class CustomUserSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         # print(user.is_authenticated)
         if not user.is_authenticated:
-            if value == roles.JOBSEEKER:
+            if value in [roles.JOBSEEKER,roles.ENTREPRENEUR]:
                 pass
             else:
                 raise serializers.ValidationError("You can only set USER,PUBLISHER as role") 
-        elif user.is_authenticated and value!=roles.JOBSEEKER:
+        elif user.is_authenticated:
+            if user.role == roles.SUPER_ADMIN:
+                pass
+            elif user.role == CustomUser.objects.get(id = user.id).role:
+                pass
+            else:
                 raise serializers.ValidationError("You can only set USER as role") 
         return value
     
@@ -72,17 +77,24 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         request = self.context.get('request')
-        action = self.context['view'].action     
-
+        action = self.context['view'].action             
+        
         if action in ['partial_update','update']:
-            old_password = request.data.get('old_password')
-            if old_password is not None:      
-                instance = self.instance
-                if not instance.check_password(old_password):
-                    raise serializers.ValidationError("curent password does not match")
+            print(request.user,self.instance.role, " user management")
+            print(request.user.role,self.instance.role,type(request.user.role),type(self.instance.role),str(request.user.role) == str(roles.SUPER_ADMIN),self.instance.role != roles.SUPER_ADMIN)
+       
+            if str(request.user.role) == str(roles.SUPER_ADMIN) and self.instance.role != roles.SUPER_ADMIN:
+                pass
             else:
-                if request.data.get('password'):
-                    raise serializers.ValidationError("Please provide old_password")
+
+                old_password = request.data.get('old_password')
+                if old_password is not None:      
+                    instance = self.instance
+                    if not instance.check_password(old_password):
+                        raise serializers.ValidationError("curent password does not match")
+                else:
+                    if request.data.get('password'):
+                        raise serializers.ValidationError("Please provide old_password")
         
         # Ensure the email field is not changed
         if self.instance and 'email' in attrs and self.instance.email != attrs['email']:

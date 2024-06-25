@@ -99,38 +99,27 @@ class CustomUserSerializerViewSet(viewsets.ModelViewSet):
             
         return queryset.order_by("-created_date")
     
-    # @method_decorator(cache_page(cache_time,key_prefix="CustomUser"))
     def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-        serializer = self.get_serializer(queryset, many=True)
-        data = serializer.data
-        return Response(data)
+        return super().list(request, *args, **kwargs)
 
     # @method_decorator(cache_page(cache_time,key_prefix="CustomUser"))
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
-
+    
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
 
-        if instance.is_active:
-            # If the user is active, mark them as inactive
-        
-            instance.is_active = False
-            instance.delete= "delete"
-            instance.save()
-            # Create a custom response
-            response_data = {
-                "message": "User Account marked as inactive"
-            }
-        else:
-            # If the user is already inactive, return a custom error response
-            response_data = {
-                "message": "User Account is already inactive"
-            }
+        # Perform the default delete logic
+        self.perform_destroy(instance)
+
+        # Create a custom response
+        response_data = {
+            "message": "User deleted successfully"
+        }
 
         # Return the custom response
         return Response(response_data)
+
     
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

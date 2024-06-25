@@ -21,7 +21,6 @@ def AdminPermission(request):
 class AccountPermission(BasePermission):
     def has_permission(self, request, view):
         method_name = view.action
-        print(method_name," method name",request.user.role)
         if method_name == 'list':
             return True
         elif method_name == 'create':
@@ -34,7 +33,7 @@ class AccountPermission(BasePermission):
         elif method_name == 'partial_update':
             return IsAuthenticated(request) and ownerPermission(request,view,'id')
         elif method_name == 'destroy':
-            return False
+            return AdminPermission(request)
         elif method_name in ['JobseekersList','JobseekersDetail','EmployerList','EmployerDetail']:
             return True
         elif method_name in ['UserDelete']:
