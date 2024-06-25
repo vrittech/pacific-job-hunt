@@ -52,10 +52,10 @@ class Job_PublicSerializers(serializers.ModelSerializer):
     def get_level(self,obj):
         return obj.level.name
     
-    def get_level(self,obj):
+    def get_location(self,obj):
         return obj.location.name
 
-    def get_level(self,obj):
+    def get_timing(self,obj):
         return obj.timing.name
     
     class Meta:

@@ -46,11 +46,11 @@ class JobListPublicSerializer(serializers.ModelSerializer):
     def get_level(self,obj):
         return obj.level.name
     
-    def get_level(self,obj):
-        return obj.location.name
-
-    def get_level(self,obj):
+    def get_timing(self,obj):
         return obj.timing.name
+
+    def get_location(self,obj):
+        return obj.location.name
     
     class Meta:
         model = Jobs
@@ -88,11 +88,11 @@ class JobListAdminSerializer(serializers.ModelSerializer):
     def get_level(self,obj):
         return obj.level.name
     
-    def get_level(self,obj):
-        return obj.location.name
-
-    def get_level(self,obj):
+    def get_timing(self,obj):
         return obj.timing.name
+
+    def get_location(self,obj):
+        return obj.location.name
     
 class JobRetrieveAdminSerializer(serializers.ModelSerializer):
     company = Company_PublicSerializer(read_only = True)
@@ -106,11 +106,11 @@ class JobRetrieveAdminSerializer(serializers.ModelSerializer):
     def get_level(self,obj):
         return obj.level.name
     
-    def get_level(self,obj):
-        return obj.location.name
-
-    def get_level(self,obj):
+    def get_timing(self,obj):
         return obj.timing.name
+
+    def get_location(self,obj):
+        return obj.location.name
     
     class Meta:
         model = Jobs
@@ -130,11 +130,11 @@ class JobRetrievePublicSerializer(serializers.ModelSerializer):
     def get_level(self,obj):
         return obj.level.name
     
-    def get_level(self,obj):
-        return obj.location.name
-
-    def get_level(self,obj):
+    def get_timing(self,obj):
         return obj.timing.name
+
+    def get_location(self,obj):
+        return obj.location.name
     
     class Meta:
         model = Jobs
