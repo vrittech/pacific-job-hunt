@@ -14,3 +14,4 @@ class CompanytypeViewSets(viewsets.ModelViewSet):
             return CompanyTypeWriteSerializers
         return super().get_serializer_class()
     
+    

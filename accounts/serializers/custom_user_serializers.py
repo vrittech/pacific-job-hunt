@@ -80,9 +80,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         action = self.context['view'].action             
         
         if action in ['partial_update','update']:
-            print(request.user,self.instance.role, " user management")
-            print(request.user.role,self.instance.role,type(request.user.role),type(self.instance.role),str(request.user.role) == str(roles.SUPER_ADMIN),self.instance.role != roles.SUPER_ADMIN)
-       
+          
             if str(request.user.role) == str(roles.SUPER_ADMIN) and self.instance.role != roles.SUPER_ADMIN:
                 pass
             else:
@@ -100,7 +98,15 @@ class CustomUserSerializer(serializers.ModelSerializer):
         if self.instance and 'email' in attrs and self.instance.email != attrs['email']:
             raise serializers.ValidationError({'email': 'Email cannot be changed.'})
         
-        return attrs        
+        return attrs  
+
+
+    def update(self, instance, validated_data):
+
+        if 'is_active' not in validated_data:
+            print(" is active not in validate data")
+            validated_data['is_active'] = False
+        return super().update(instance, validated_data)      
 
     def get_extra_kwargs(self):
         extra_kwargs = super().get_extra_kwargs()
