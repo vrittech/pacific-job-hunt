@@ -5,7 +5,10 @@ from accounts.models import CustomUser
 from socialmedia.models import CompanySocialMedia,SocialMedia
 
 def str_to_list(data,value_to_convert):
-    mutable_data = data.dict()
+    try:
+        mutable_data = data.dict()
+    except:
+        mutable_data = data
     value_to_convert_data = mutable_data[value_to_convert]
     if type(value_to_convert_data) == list:
         return mutable_data
@@ -42,7 +45,9 @@ class CompanyReadSerializers(serializers.ModelSerializer):
 class CompanySerializers(serializers.ModelSerializer):
 
     def to_internal_value(self, data):
+        print(type(data.get('type'))," company type ", data.get('type'))
         if data.get('type'):
+            print(isinstance(data.get('type'), str))
             if isinstance(data.get('type'), str):
                 data = str_to_list(data,'type')
                 return super().to_internal_value(data)
@@ -63,6 +68,12 @@ class CompanySerializers(serializers.ModelSerializer):
 
 
 class signUpCompanySerializers(serializers.ModelSerializer):
+    def to_internal_value(self, data):
+        if data.get('type'):
+            if isinstance(data.get('type'), str):
+                data = str_to_list(data,'type')
+                return super().to_internal_value(data)
+        return super().to_internal_value(data)
     
     password = serializers.CharField()
     owner_email = serializers.EmailField()
