@@ -27,7 +27,7 @@ class CompanySerializers(serializers.ModelSerializer):
     class Meta:
         ref_name = "accountsCompanySerializers"
         model = Company
-        fields = ['id', 'company_name','created_date', 'company_slug', 'type', 'email','company_logo','company_banner','is_verified','company_size','company_social_media']
+        fields = ['id', 'company_name','created_date', 'company_slug', 'type', 'email','mobile_number','location','company_logo','company_banner','is_verified','company_size','company_social_media','website','is_featured','about','total_active_job','total_posted_job']
 
    
 class EmployerDetailSerializers(serializers.ModelSerializer):

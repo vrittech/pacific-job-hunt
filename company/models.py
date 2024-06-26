@@ -45,3 +45,7 @@ class Company(models.Model):
     def total_active_job(self):
         return self.jobs.filter(is_active=True, expiry_date__gte=timezone.now()).count()
 
+    @property
+    def total_posted_job(self):
+        return self.jobs.all().count()
+
