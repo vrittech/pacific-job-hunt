@@ -35,7 +35,7 @@ class CompanyPermission(BasePermission):
         elif view.action in ['signUpCompany']:
             return True
         elif view.action == "partial_update":
-            return view.get_object().owner_id == request.user.id
+            return view.get_object().owner_id == request.user.id or AdminLevel(request)
         elif view.action == 'destroy':
             return AdminLevel(request) or (AdminEntrepreneurLevel(request) and isOwnerCompany(request,view.get_object()))
         
