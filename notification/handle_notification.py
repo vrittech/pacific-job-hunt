@@ -27,7 +27,7 @@ def NotificationHandler(instance,method,request = None):
         is_read = False
         group_notification = '..'
 
-    elif method == 'job_':
+    elif method == 'company_register':
         to_notification = [instance.user.id]
         from_notification = instance.user.id
         path = mapping.get(method).get('path').format(order_id=instance.id)
@@ -36,14 +36,34 @@ def NotificationHandler(instance,method,request = None):
         is_read = False
         group_notification = '..'
 
-    elif method == 'collection_push_notification':
-        to_notification = CustomUser.objects.all().values_list('id',flat=True)
-        from_notification = CustomUser.objects.filter(Q(role = roles.ADMIN) | Q(role = roles.SUPER_ADMIN)).first().id
-        path = mapping.get(method).get('path').format(id=instance.id)
-        notification_message = ''
-        user_messaage = ''
+    elif method == 'post_jobs':
+        to_notification = [instance.user.id]
+        from_notification = instance.user.id
+        path = mapping.get(method).get('path').format(order_id=instance.id)
+        notification_message = mapping.get(method).get('admin_message').format(order_id=instance.id)
+        user_messaage = mapping.get(method).get('user_message').format(username=instance.username,user_id = instance.id)
         is_read = False
         group_notification = '..'
+
+    elif method == 'apply_job':
+        to_notification = [instance.user.id]
+        from_notification = instance.user.id
+        path = mapping.get(method).get('path').format(order_id=instance.id)
+        notification_message = mapping.get(method).get('admin_message').format(order_id=instance.id)
+        user_messaage = mapping.get(method).get('user_message').format(username=instance.username,user_id = instance.id)
+        is_read = False
+        group_notification = '..'
+
+    elif method == 'approved_jobseekers':
+        to_notification = [instance.user.id]
+        from_notification = instance.user.id
+        path = mapping.get(method).get('path').format(order_id=instance.id)
+        notification_message = mapping.get(method).get('admin_message').format(order_id=instance.id)
+        user_messaage = mapping.get(method).get('user_message').format(username=instance.username,user_id = instance.id)
+        is_read = False
+        group_notification = '..'
+
+
         
 
     notification_data = {
