@@ -3,13 +3,14 @@ from ..models import CustomUser
 from company.models import Company,CompanyType
 from socialmedia.models import CompanySocialMedia,SocialMedia
 
-class CompanySocialMediaSerializers(serializers.ModelSerializer):
+class SocialMediaSerializers(serializers.ModelSerializer):
     class Meta:
         ref_name = "accountsCompanySerializers"
         model = SocialMedia
         fields = ['id', 'name','image']
 
 class CompanySocialMediaSerializers(serializers.ModelSerializer):
+    social_media = SocialMediaSerializers()
     class Meta:
         ref_name = "accountsCompanySerializers"
         model = CompanySocialMedia
