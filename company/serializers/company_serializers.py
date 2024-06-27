@@ -19,6 +19,11 @@ def str_to_list(data,value_to_convert):
     except ValueError as e:
         raise serializers.ValidationError({f'{value_to_convert}': str(e)})
 
+class CustomUser_CompanyReadSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['email','first_name','last_name']
+
 class CompanyTypePublicSerializers_CompanyReadSerializers(serializers.ModelSerializer):
     class Meta:
         model = CompanyType
@@ -38,6 +43,7 @@ class CompanySocialMediaPublicSerializers_CompanyReadSerializers(serializers.Mod
 class CompanyReadSerializers(serializers.ModelSerializer):
     type = CompanyTypePublicSerializers_CompanyReadSerializers(many = True)
     company_social_media = CompanySocialMediaPublicSerializers_CompanyReadSerializers(many = True)
+    owner = CustomUser_CompanyReadSerializers()
     class Meta:
         model = Company
         fields = ['id','company_name','company_slug','type','mobile_number','email','company_logo','company_banner','about','company_size','website','is_verified','owner','location','created_date','total_active_job','company_social_media']
