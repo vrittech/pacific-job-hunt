@@ -17,7 +17,7 @@ from .mapping_notification_type import mapping
 from .mails.notification_mail import sendMail
 
 def NotificationHandler(instance,method,request = None):
-
+    print( " job  is created ",method)
     if method == 'password_changed':
         to_notification = [instance.id]
         from_notification = instance.id
@@ -28,29 +28,29 @@ def NotificationHandler(instance,method,request = None):
         group_notification = '..'
 
     elif method == 'company_register':
-        to_notification = list(CustomUser.objects.filter(role = roles.ADMIN).values_list('id',flat=True))
+        to_notification = list(CustomUser.objects.filter(Q(role = roles.ADMIN) | Q(role = roles.SUPER_ADMIN)).values_list('id',flat=True))
         from_notification = instance.owner.id
         path = mapping.get(method).get('path')
-        notification_message = mapping.get(method).get('admin_message')#.format(=instance.id)
-        user_messaage = mapping.get(method).get('user_message').format(username=instance.username,user_id = instance.id)
+        notification_message = mapping.get(method).get('admin_message').format(EmployerName=instance.owner.username)
+        # user_messaage = mapping.get(method).get('user_message').format(username=instance.username,user_id = instance.id)
         is_read = False
         group_notification = '..'
 
-    elif method == 'post_jobs_block':
-        to_notification = [instance.user.id]
-        from_notification = instance.user.id
-        path = mapping.get(method).get('path').format(order_id=instance.id)
-        notification_message = mapping.get(method).get('admin_message').format(order_id=instance.id)
-        user_messaage = mapping.get(method).get('user_message').format(username=instance.username,user_id = instance.id)
+    elif method == 'post_jobs':
+        to_notification = list(CustomUser.objects.filter(Q(role = roles.ADMIN) | Q(role = roles.SUPER_ADMIN)).values_list('id',flat=True))
+        from_notification = instance.company.owner.id
+        path = mapping.get(method).get('path')#.format(order_id=instance.id)
+        notification_message = mapping.get(method).get('admin_message').format(JobTitle=instance.title,EmployerName=instance.company.company_name)
+        # user_messaage = mapping.get(method).get('user_message').format(username=instance.username,user_id = instance.id)
         is_read = False
         group_notification = '..'
 
     elif method == 'apply_job':
         to_notification = [instance.user.id]
-        from_notification = instance.user.id
+        from_notification = instance.company.owner.id
         path = mapping.get(method).get('path').format(order_id=instance.id)
-        notification_message = mapping.get(method).get('admin_message').format(order_id=instance.id)
-        user_messaage = mapping.get(method).get('user_message').format(username=instance.username,user_id = instance.id)
+        notification_message = mapping.get(method).get('admin_message').format(EmployerName=instance.owner.username)
+        # user_messaage = mapping.get(method).get('user_message').format(username=instance.username,user_id = instance.id)
         is_read = False
         group_notification = '..'
 
@@ -59,15 +59,13 @@ def NotificationHandler(instance,method,request = None):
         from_notification = instance.user.id
         path = mapping.get(method).get('path').format(order_id=instance.id)
         notification_message = mapping.get(method).get('admin_message').format(order_id=instance.id)
-        user_messaage = mapping.get(method).get('user_message').format(username=instance.username,user_id = instance.id)
+        # user_messaage = mapping.get(method).get('user_message').format(username=instance.username,user_id = instance.id)
         is_read = False
         group_notification = '..'
     
     else:
         return True
 
-
-        
 
     notification_data = {
         "notification_message": notification_message,
@@ -83,18 +81,19 @@ def NotificationHandler(instance,method,request = None):
     }
 
 
-    try:
-        serializer = save_notification(notification_data)
+    # try:
+    serializer = save_notification(notification_data)
         #sendNotificationToOneSignals(notification_data,file = serializer.data.get('file'))
         #sendMail(notification_data)
-        return True
-    except:
-        print("error in notification")
+    return True
+    # except:
+    #     print("error in notification")
 
 def save_notification(notification_data):
     serializer = NotificationWriteSerializer(data=notification_data)
     serializer.is_valid(raise_exception=True)
     instance = serializer.save()
+    print(notification_data['to_notification'], " to notification ")
     instance.to_notification.set(notification_data['to_notification'])
     return True
 

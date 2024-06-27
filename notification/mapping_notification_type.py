@@ -2,14 +2,14 @@ from . import frontend_setting
 mapping = {
     "company_register":{
         "model_name":"Company",
-        "path":"",
-        "admin_message":"new company has created",
+        "path":"/company",
+        "admin_message":"New employer {EmployerName} has registered.",
         "user_message":"",
     },
     "post_jobs":{
         "model_name":"Jobs",
         "path":"jobs/{job_id}",
-        "admin_message":"{}",
+        "admin_message":"Job post {JobTitle} by {EmployerName} is awaiting approval",
         "user_message":"{}",
     },
     "apply_job":{ #these goes to employer,and jobseekers

@@ -6,5 +6,5 @@ from notification.handle_notification import NotificationHandler
 
 @receiver(pre_save, sender=Company)
 def CompanyPreSave(sender, instance, **kwargs):
-    if instance.pk:
+    if not instance.pk:
         NotificationHandler(instance,"company_register")
