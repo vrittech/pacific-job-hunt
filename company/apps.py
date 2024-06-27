@@ -5,5 +5,5 @@ class CompanyConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'company'
     
-    def ready(self) -> None:
-        import company.actions
+    # def ready(self) -> None:
+    #     import company.actions

@@ -28,15 +28,15 @@ def NotificationHandler(instance,method,request = None):
         group_notification = '..'
 
     elif method == 'company_register':
-        to_notification = [instance.user.id]
-        from_notification = instance.user.id
-        path = mapping.get(method).get('path').format(order_id=instance.id)
-        notification_message = mapping.get(method).get('admin_message').format(order_id=instance.id)
+        to_notification = list(CustomUser.objects.filter(role = roles.ADMIN).values_list('id',flat=True))
+        from_notification = instance.owner.id
+        path = mapping.get(method).get('path')
+        notification_message = mapping.get(method).get('admin_message')#.format(=instance.id)
         user_messaage = mapping.get(method).get('user_message').format(username=instance.username,user_id = instance.id)
         is_read = False
         group_notification = '..'
 
-    elif method == 'post_jobs':
+    elif method == 'post_jobs_block':
         to_notification = [instance.user.id]
         from_notification = instance.user.id
         path = mapping.get(method).get('path').format(order_id=instance.id)
@@ -62,6 +62,9 @@ def NotificationHandler(instance,method,request = None):
         user_messaage = mapping.get(method).get('user_message').format(username=instance.username,user_id = instance.id)
         is_read = False
         group_notification = '..'
+    
+    else:
+        return True
 
 
         

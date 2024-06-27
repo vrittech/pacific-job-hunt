@@ -2,9 +2,9 @@ from . import frontend_setting
 mapping = {
     "company_register":{
         "model_name":"Company",
-        "path":"jobs/{job_id}",
-        "admin_message":"{}",
-        "user_message":"{}",
+        "path":"",
+        "admin_message":"new company has created",
+        "user_message":"",
     },
     "post_jobs":{
         "model_name":"Jobs",
