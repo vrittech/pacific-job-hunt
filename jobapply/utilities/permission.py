@@ -39,7 +39,7 @@ class AdminViewSetsPermission(BasePermission):
 
 class JobSeekersApplySavedJobPermission(BasePermission):
     def has_permission(self, request, view):
-        print(view.action, "  methto ")
+        print(view.action,request.method, "  methto ")
         if view.action in ['list']:
             return True
         elif view.action in ['jobSeekers']:
@@ -54,7 +54,7 @@ class JobSeekersApplySavedJobPermission(BasePermission):
         elif view.action in ['partial_update']:
             return CompanyOwnerJob(request,view.get_object())
         elif view.action in ['JobSeekersBulkStatus']:
-            return AdminEntrepreneurLevel(request)
+            return True#AdminEntrepreneurLevel(request)
         else:
             return False
 

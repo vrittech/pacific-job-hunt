@@ -62,7 +62,8 @@ class CompanyViewSets(viewsets.ModelViewSet):
             access = str(refresh.access_token)
             refresh = str(refresh)
 
-            user_data[ 'access'] = access
+            user_data['access'] = access
+            user_data['is_verified'] = user_obj.first().is_verified
             user_data['refresh'] = refresh
         except:
             pass

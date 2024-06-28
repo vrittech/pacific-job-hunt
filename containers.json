@@ -1,0 +1,9 @@
+{
+    "my-container": {
+      "image": "my-image:latest",
+      "ports": {
+        "80": "HTTP"
+      }
+    }
+  }
+  
