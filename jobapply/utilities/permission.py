@@ -54,7 +54,7 @@ class JobSeekersApplySavedJobPermission(BasePermission):
         elif view.action in ['partial_update']:
             return CompanyOwnerJob(request,view.get_object())
         elif view.action in ['JobSeekersBulkStatus']:
-            return True#AdminEntrepreneurLevel(request)
+            return AdminEntrepreneurLevel(request)
         else:
             return False
 

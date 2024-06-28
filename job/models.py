@@ -64,3 +64,7 @@ class Jobs(models.Model):
     def number_of_applicant(self):
         return self.job_seekers.all().count()
     
+    @property
+    def number_of_saved_applicant(self):
+        return self.job_seekers.all().filter(is_saved_applicant = True).count()
+    

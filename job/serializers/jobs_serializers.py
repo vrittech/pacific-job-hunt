@@ -74,6 +74,7 @@ class JobListAdminSerializer(serializers.ModelSerializer):
     category = JobCategory_PublicSerializer(read_only = True)
     position = Profession_PublicSerializer(read_only = True)
     number_of_applicant = serializers.SerializerMethodField()
+    number_of_saved_applicant = serializers.SerializerMethodField()
     level = serializers.SerializerMethodField()
     location = serializers.SerializerMethodField()
     timing = serializers.SerializerMethodField()
@@ -84,6 +85,9 @@ class JobListAdminSerializer(serializers.ModelSerializer):
         
     def get_number_of_applicant(self,obj):
         return obj.number_of_applicant
+    
+    def get_number_of_saved_applicant(self,obj):
+        return obj.number_of_saved_applicant
     
     def get_level(self,obj):
         return obj.level.name

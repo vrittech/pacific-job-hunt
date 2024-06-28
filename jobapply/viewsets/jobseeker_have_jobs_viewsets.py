@@ -7,6 +7,7 @@ from ..serializers.jobseeker_have_jobs_serializers import (
     )
 
 from rest_framework.response import Response
+from rest_framework import status
 
 from ..utilities.importbase import *
 from accounts import roles
@@ -71,16 +72,26 @@ class JobSeekerHaveJobsViewSets(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'], name="JobSeekersBulkStatus", url_path="job-seekers-bulk-status")
     def JobSeekersBulkStatus(self, request, *args, **kwargs):#this response some additional data for admin,admin try to get some detail
         job_applys_id = request.data.get('job_applys_id')
-        status = request.data.get('status')
-      
-        if job_applys_id:
-            applier_objs = JobsApply.objects.filter(id__in = job_applys_id,job__company__owner = request.user.id)
-            deleted_count, _ = applier_objs.update(status = status)
-           
-            return Response({'message': f'Successfully  {status} jobseekers'}, status=status.HTTP_200_OK)
-        else:
-            return Response({'message':f'can not {status} jobseekers'},status=status.HTTP_400_BAD_REQUEST)
+        apply_status = request.data.get('status')
 
-    
-    
-    
+        applier_objs = JobsApply.objects.filter(id__in = job_applys_id,job__company__owner = request.user.id)
+        if applier_objs:
+            if apply_status == 'delete':
+                applier_objs.delete()
+                return Response({'message': f'Successfully {apply_status} jobseekers'}, status=status.HTTP_200_OK)
+            elif apply_status == 'bookmark':
+                applier_objs.update(is_saved_applicant = True)
+                return Response({'message': f'Successfully {apply_status} jobseekers'}, status=status.HTTP_200_OK)
+            else:
+                if job_applys_id:
+                    applier_objs.update(status = apply_status)
+                
+                    return Response({'message': f'Successfully {apply_status} jobseekers'}, status=status.HTTP_200_OK)
+                else:
+                    return Response({'message':f'can not {apply_status} jobseekers'},status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'message':f'can not {apply_status} jobseekers'},status=status.HTTP_400_BAD_REQUEST)
+
+        
+        
+        
