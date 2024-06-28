@@ -33,6 +33,9 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ap-south-1
       run: |
-        sudo apt-get update && sudo apt-get install -y awscli
-        aws lightsail push-container-image --service-name my-service --label my-label --image my-image:latest
-        aws lightsail create-container-service-deployment --service-name my-service --containers file://containers.json --public-endpoint file://public-endpoint.json
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY_PATH }} ubuntu@13.211.33.250 "mkdir -p /home/ubuntu/my-django-project"
+        scp -r -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY_PATH }} /home/ubuntu/my-django-project/* ubuntu@13.211.33.250:/home/ubuntu/my-django-project/
+
+        # sudo apt-get update && sudo apt-get install -y awscli
+        # aws lightsail push-container-image --service-name my-service --label my-label --image my-image:latest
+        # aws lightsail create-container-service-deployment --service-name my-service --containers file://containers.json --public-endpoint file://public-endpoint.json

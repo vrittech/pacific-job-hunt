@@ -5,6 +5,13 @@ from job.models import Jobs
 from jobseeker.models import ProfessionalInformation,JobSeekerHaveSkills
 from company.models import Company
 from professions.models import Profession
+from resumes.models import Resumes
+
+
+class Resumes_getJobSeekers_JobsApplyAdminListReadSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Resumes
+        fields =  ['cv']
 
 class Profession_JobApplyPublicSerializer(serializers.ModelSerializer):
     class Meta:
@@ -82,9 +89,10 @@ class JobsApplyAdminListSerializers(serializers.ModelSerializer):
 
 class getJobSeekers_JobsApplyAdminListReadSerializers(serializers.ModelSerializer):
     user = JobSeekers_PublicSerializers()
+    cv = Resumes_getJobSeekers_JobsApplyAdminListReadSerializers()
     class Meta:
         model = JobsApply
-        fields = ['user','created_date','status','id','job','is_saved_applicant']
+        fields = ['user','created_date','status','id','job','is_saved_applicant','cv']
     
 
 class JobsApplyAdminRetrieveSerializers(serializers.ModelSerializer):
