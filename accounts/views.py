@@ -457,7 +457,7 @@ def createGoogleAccount(idinfo):
         user = user.first()
         return user,True
     else:    
-        user = CustomUser.objects.create(email = email , first_name = first_name , last_name = last_name, username=username,role = 5,old_password_change_case = False,provider = 2,is_verified = True)
+        user = CustomUser.objects.create(email = email , first_name = first_name , last_name = last_name, username=username,role = 5,old_password_change_case = False,provider = 2,is_verified = True,is_active = True)
         return user , True
 
 
@@ -518,6 +518,6 @@ def createAppleAccount(idinfo):
     if user.exists():
         user = CustomUser.objects.get(Q(email = email) | Q(username = username))
     else:    
-        user = CustomUser.objects.create(email = email,is_verified = True , first_name = first_name, username=username,role = 5,old_password_change_case = False,provider = 4)
+        user = CustomUser.objects.create(email = email,is_verified = True , first_name = first_name, username=username,role = 5,old_password_change_case = False,provider = 4,is_active = True)
     return user , True
    
