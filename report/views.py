@@ -20,7 +20,7 @@ class getSample(APIView):
                 return Response({"message": 'Unknown type'}, status=status.HTTP_400_BAD_REQUEST)
             
             response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="rows_export.csv"'
+            response['Content-Disposition'] = f'attachment; filename="{type}.csv"'
 
             writer = csv.writer(response)
 
