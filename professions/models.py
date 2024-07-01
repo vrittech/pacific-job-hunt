@@ -6,7 +6,8 @@ class Profession(models.Model):
     name = models.CharField(max_length = 250,unique = True)
     image = models.ImageField(upload_to='profession/images',null = True,blank = True)
     slug = models.CharField(max_length = 250,unique = True,blank=True)
-
+    created_date = models.DateTimeField(auto_now_add=True)
+    
     def __str__(self):
         return self.name
     

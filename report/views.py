@@ -15,20 +15,27 @@ class getSample(APIView):
             
             if type == "job-timing":
                 queryset = JobTiming.objects.all()
+                column_list = ['id','name','created_date']
             elif type == "job-level":
                 queryset = JobLevel.objects.all()
+                column_list = ['id','name','created_date']
             elif type == "job-location":
                 queryset = JobLocation.objects.all()
+                column_list = ['id','name','created_date']
 
             elif type == "job-category":
                 queryset = JobCategory.objects.all()
+                column_list = ['id','name','is_popular','slug','created_date']
+    
             elif type == "profession":
                 queryset = Profession.objects.all()
+                column_list = ['id','name','slug','created_date']
             elif type == "skills":
                 queryset = Skills.objects.all()
+                column_list = ['id','name','category','created_date']
             elif type == "company-type":
                 queryset = CompanyType.objects.all()
-     
+                column_list = ['id','type','slug','created_date']
             else:
                 return Response({"message": 'Unknown type'}, status=status.HTTP_400_BAD_REQUEST)
             
@@ -38,7 +45,7 @@ class getSample(APIView):
             writer = csv.writer(response)
 
             # Write the header row
-            writer.writerow(['id','name','created_date'])
+            writer.writerow(column_list)
 
             # Write data rows
             for data in queryset:
