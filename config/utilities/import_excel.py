@@ -40,35 +40,33 @@ class ImportExel(APIView):
         if not file:
             return Response({"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST)
         
-        try:
-            # Use pandas to read the Excel file
-            df = pd.read_csv(file)
+        
+        # Use pandas to read the Excel file
+        df = pd.read_csv(file)
 
-            # Convert the DataFrame to a list of dictionaries
-            datas = df.to_dict(orient='records')
+        # Convert the DataFrame to a list of dictionaries
+        datas = df.to_dict(orient='records')
+        # Process the DataFrame based on the 'type' parameter
 
-            # Process the DataFrame based on the 'type' parameter
-    
-            if type == "job-category":
-                create_update(JobCategory,JobCategoryWriteSerializers,datas,'name')
-            elif type == "profession":
-               create_update(Profession,ProfessionWriteSerializers,datas,'name')
-            elif type == "skills":
-               create_update(Skills,SkillsWriteSerializers,datas,'name')
-            elif type == "company-type":
-               create_update(CompanyType,CompanyTypeWriteSerializers,datas,'type')
-            else:
-                return Response({"message": 'Unknown file type'}, status=status.HTTP_400_BAD_REQUEST)
-            
+        if type == "job-category":
+            create_update(JobCategory,JobCategoryWriteSerializers,datas,'name')
+        elif type == "profession":
+            create_update(Profession,ProfessionWriteSerializers,datas,'name')
+        elif type == "skills":
+            create_update_skills(Skills,SkillsWriteSerializers,datas,'name')
+        elif type == "company-type":
+            create_update(CompanyType,CompanyTypeWriteSerializers,datas,'type')
+        else:
+            return Response({"message": 'Unknown file type'}, status=status.HTTP_400_BAD_REQUEST)
+        
 
-            return Response({"message": "File processed successfully", "data": datas}, status=status.HTTP_201_CREATED)
-        except Exception as e:
-             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message": "File processed successfully"}, status=status.HTTP_201_CREATED)
+        # except Exception as e:
+        #      return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
 
 def create_update(my_model,my_serializer,datas,unique_field_name):
     
-
     for record in datas:
         existing_data = my_model.objects.filter(name=record[unique_field_name])
         if existing_data.exists():
@@ -77,6 +75,7 @@ def create_update(my_model,my_serializer,datas,unique_field_name):
             if serializer.is_valid():
                 serializer.save()
             else:
+                print(serializer.errors)
                 # Handle validation errors
                 pass
         else:
@@ -85,5 +84,35 @@ def create_update(my_model,my_serializer,datas,unique_field_name):
             if serializer.is_valid():
                 serializer.save()
             else:
+                print(serializer.errors)
+                # Handle validation errors
+                pass
+
+
+def create_update_skills(my_model,my_serializer,datas,unique_field_name):
+    
+    for record in datas:
+        existing_data = my_model.objects.filter(name=record[unique_field_name])
+        if existing_data.exists():
+            existing_data = existing_data.first()  # Use a unique field here
+            if record.get('category'):
+                category_obj = JobCategory.objects.filter(name = record.get('category'))
+                if category_obj.exists:
+                    category_obj = category_obj.first()
+                    record['category'] = category_obj
+            serializer = my_serializer(existing_data, data=record)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                print(serializer.errors)
+                # Handle validation errors
+                pass
+        else:
+            # Create a new record
+            serializer = my_serializer(data=record)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                print(serializer.errors)
                 # Handle validation errors
                 pass
