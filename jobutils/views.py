@@ -46,9 +46,9 @@ class ImportExel(APIView):
             if type == "job-timing": 
                 create_update(JobTiming,JobTimingWriteSerializers,datas)
             elif type == "job-level":
-                create_update(JobTiming,JobLevelWriteSerializers,datas)
+                create_update(JobLevel,JobLevelWriteSerializers,datas)
             elif type == "job-location":
-                create_update(JobTiming,JobLocationWriteSerializers,datas)
+                create_update(JobLocation,JobLocationWriteSerializers,datas)
             else:
                 return Response({"message": 'Unknown file type'}, status=status.HTTP_400_BAD_REQUEST)
             
@@ -60,15 +60,16 @@ class ImportExel(APIView):
 
 def create_update(my_model,my_serializer,datas):
     for record in datas:
-        try:
-            existing_data = my_model.objects.get(id=record['id'])  # Use a unique field here
+        existing_data = my_model.objects.filter(name=record['name'])
+        if existing_data.exists():
+            existing_data = existing_data.first()  # Use a unique field here
             serializer = my_serializer(existing_data, data=record)
             if serializer.is_valid():
                 serializer.save()
             else:
                 # Handle validation errors
                 pass
-        except my_model.DoesNotExist:
+        else:
             # Create a new record
             serializer = my_serializer(data=record)
             if serializer.is_valid():
