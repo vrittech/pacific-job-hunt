@@ -49,7 +49,9 @@ class getSample(APIView):
 
             # Write data rows
             for data in queryset:
-                data_lists = [data.id,data.name,data.created_date]
+                data_lists = []
+                for column in column_list:
+                    data_lists.append(getattr(data,column))
                 writer.writerow(data_lists)
 
             return response
