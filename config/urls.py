@@ -70,6 +70,8 @@ schema_view = get_schema_view(
    permission_classes=[permissions.AllowAny],
 )
 
+from config.utilities.import_excel import ImportExel
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("__debug__/", include("debug_toolbar.urls")),
@@ -78,6 +80,7 @@ urlpatterns = [
     path('api/accounts/',include('accounts.urls')),
     path('api/accounts-management/',include('accountsmanagement.urls')),
     path('api/job-utils/',include('jobutils.urls')),
+    path('api/import-excel/<str:type>/',ImportExel.as_view(),name="import_excel"),
     path('api/reports/',include('report.urls')),
     
    # path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
