@@ -8,7 +8,6 @@ router = DefaultRouter()
 router.register('company-type', company_type_viewsets.CompanytypeViewSets, basename="CompanytypeViewSets")
 router.register('company', company_viewsets.CompanyViewSets, basename="CompanyViewSets")
 
-from ..config.utilities.import_excel import ImportExel
 urlpatterns = [    
     path('import-excel/<str:type>/',ImportExel.as_view(),name="import_excel"),
 ]
