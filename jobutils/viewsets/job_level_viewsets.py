@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 
 class JobLevelViewset(viewsets.ModelViewSet):
     serializer_class = JobLevelListSerializers
-    permission_classes = [JobseekerPermission]
+    permission_classes = [JobUtilsPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = JobLevel.objects.all()

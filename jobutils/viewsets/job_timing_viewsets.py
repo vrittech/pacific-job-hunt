@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 
 class JobTimingViewset(viewsets.ModelViewSet):
     serializer_class = JobTimingListSerializers
-    permission_classes = [JobseekerPermission]
+    permission_classes = [JobUtilsPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset  = JobTiming.objects.all()

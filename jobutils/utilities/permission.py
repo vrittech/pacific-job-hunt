@@ -30,28 +30,16 @@ class AdminViewSetsPermission(BasePermission):
     def has_permission(self, request, view):    
         return AdminLevel(request)
     
-class JobSeekersApplySavedJobPermission(BasePermission):
-    def has_permission(self, request, view):
-        if view.action in ['list']:
-            return True
-        elif view.action in ['retrieve']    :
-            return isOwnerObject(request,view.get_object())
-        elif view.action in ['create']:
-            return isOwner(request)
-        else:
-            return False
 
-class JobseekerPermission(BasePermission):
+class JobUtilsPermission(BasePermission):
     def has_permission(self, request, view):
-        return True
         if view.action in ["list"]:
             return True
         elif view.action in ['retrieve']:
-            return isOwnerObject(request,view.get_object())
+            return True
         elif view.action in ['create','update']:
-            return isOwner(request)
+            return AdminLevel(request)
         elif view.action == "partial_update":
-            return view.get_object().user_id == request.user.id
+            return AdminLevel(request)
         elif view.action == 'destroy':
-            return isOwnerObject(request,view.get_object())
-
+            return AdminLevel(request)
