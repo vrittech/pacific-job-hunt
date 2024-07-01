@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .viewsets import company_type_viewsets,company_viewsets
-from ..config.utilities.import_excel import ImportExel
+from config.utilities.import_excel import ImportExel
 
 router = DefaultRouter()
 
