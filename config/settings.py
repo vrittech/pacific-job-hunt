@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'notification',
     'jobutils',
+    'setupemail',
 ]
 
 # ASGI_APPLICATION = 'config.asgi.application'
@@ -202,21 +203,7 @@ SIMPLE_JWT = {
 }
 # JWT_AUTH = {"JWT_ALLOW_REFRESH": True}
 
-
-# EMAIL_HOST  = os.getenv('EMAIL_HOST')
-# EMAIL_PORT = os.getenv('EMAIL_PORT')
-# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-# EMAIL_USE_TLS = True
-
-
-#Email
-EMAIL_HOST="smtp.gmail.com"
-EMAIL_PORT="587"
-EMAIL_HOST_USER="manojdas.py@gmail.com"
-EMAIL_HOST_PASSWORD="qizi zhwj urhp vmvv"
-EMAIL_USE_TLS = True
-
+EMAIL_BACKEND = 'setupemail.utilities.custom_email_setup_backend.CustomEmailBackend'
 
 INTERNAL_IPS = [
     # ...
