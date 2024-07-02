@@ -33,9 +33,9 @@ class JobViewSets(viewsets.ModelViewSet):
         # return query
         if user.is_authenticated and user.role == roles.JOBSEEKER:
             query = query.filter(is_active = True).filter(expiry_date__gt=timezone.now())
-        elif user.is_authenticated and user.role in [roles.ENTREPRENEUR,roles.ADMIN]:
+        elif user.is_authenticated and user.role in [roles.ENTREPRENEUR]:
             query = query.filter(company__owner = user)
-        elif user.is_authenticated and user.role in [roles.ADMIN]:
+        elif user.is_authenticated and user.role in [roles.ADMIN,roles.SUPER_ADMIN]:
             pass
         else:
             query = query.filter(is_active = True).filter(expiry_date__gt=timezone.now())

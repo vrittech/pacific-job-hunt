@@ -68,7 +68,7 @@ class ImportExel(APIView):
 def create_update(my_model,my_serializer,datas,unique_field_name):
     
     for record in datas:
-        existing_data = my_model.objects.filter(name=record[unique_field_name])
+        existing_data = my_model.objects.filter(**{unique_field_name: record[unique_field_name]})
         if existing_data.exists():
             existing_data = existing_data.first()  # Use a unique field here
             serializer = my_serializer(existing_data, data=record)
