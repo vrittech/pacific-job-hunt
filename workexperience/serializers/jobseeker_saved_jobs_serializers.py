@@ -34,7 +34,22 @@ class Job_PublicSerializers(serializers.ModelSerializer):
     level = serializers.SerializerMethodField()
    
     def get_level(self,obj):
-        return obj.level.name
+        try:
+            return obj.level.name
+        except:
+            return ''
+    
+    def get_timing(self,obj):
+        try:
+            return obj.timing.name
+        except:
+            return ''
+
+    def get_location(self,obj):
+        try:
+            return obj.location.name
+        except:
+            return ''
     
     class Meta:
         model = Jobs

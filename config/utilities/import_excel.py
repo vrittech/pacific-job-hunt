@@ -93,18 +93,24 @@ def create_update_skills(my_model,my_serializer,datas,unique_field_name):
     
     for record in datas:
         existing_data = my_model.objects.filter(name=record[unique_field_name])
+        
+        if record.get('category'):
+            category_obj = JobCategory.objects.filter(name = record.get('category'))
+            if category_obj.exists:
+                category_obj = category_obj.first()
+                record['category'] = category_obj.id
+            else:
+                return False
+        else:
+                return False
         if existing_data.exists():
             existing_data = existing_data.first()  # Use a unique field here
-            if record.get('category'):
-                category_obj = JobCategory.objects.filter(name = record.get('category'))
-                if category_obj.exists:
-                    category_obj = category_obj.first()
-                    record['category'] = category_obj
+            
             serializer = my_serializer(existing_data, data=record)
             if serializer.is_valid():
                 serializer.save()
             else:
-                print(serializer.errors)
+                # print(serializer.errors)
                 # Handle validation errors
                 pass
         else:
@@ -113,6 +119,6 @@ def create_update_skills(my_model,my_serializer,datas,unique_field_name):
             if serializer.is_valid():
                 serializer.save()
             else:
-                print(serializer.errors)
+                # print(serializer.errors)
                 # Handle validation errors
                 pass

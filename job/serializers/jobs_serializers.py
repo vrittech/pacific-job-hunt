@@ -44,13 +44,22 @@ class JobListPublicSerializer(serializers.ModelSerializer):
     timing = serializers.SerializerMethodField()
 
     def get_level(self,obj):
-        return obj.level.name
+        try:
+            return obj.level.name
+        except:
+            return ''
     
     def get_timing(self,obj):
-        return obj.timing.name
+        try:
+            return obj.timing.name
+        except:
+            return ''
 
     def get_location(self,obj):
-        return obj.location.name
+        try:
+            return obj.location.name
+        except:
+            return ''
     
     class Meta:
         model = Jobs
@@ -90,13 +99,22 @@ class JobListAdminSerializer(serializers.ModelSerializer):
         return obj.number_of_saved_applicant
     
     def get_level(self,obj):
-        return obj.level.name
+        try:
+            return obj.level.name
+        except:
+            return ''
     
     def get_timing(self,obj):
-        return obj.timing.name
+        try:
+            return obj.timing.name
+        except:
+            return ''
 
     def get_location(self,obj):
-        return obj.location.name
+        try:
+            return obj.location.name
+        except:
+            return ''
     
 class JobRetrieveAdminSerializer(serializers.ModelSerializer):
     company = Company_PublicSerializer(read_only = True)
